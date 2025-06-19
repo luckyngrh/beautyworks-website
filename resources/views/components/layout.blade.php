@@ -46,10 +46,10 @@
                     <details open>
                         <summary>Portfolio</summary>
                         <ul>
-                            <li><a>Make up Team</a></li>
-                            <li><a>Make Up Wedding</a></li>
-                            <li><a>Make Up Events</a></li>
-                            <li><a>Make Up Class</a></li>
+                            <li><a href="{{ route('portofolio.team') }}">Make up Team</a></li>
+                            <li><a href="{{ route('portofolio.wedding') }}">Make Up Wedding</a></li>
+                            <li><a href="{{ route('portofolio.event') }}">Make Up Events</a></li>
+                            <li><a href="{{ route('portofolio.class') }}">Make Up Class</a></li>
                         </ul>
                     </details>
                 </li>
