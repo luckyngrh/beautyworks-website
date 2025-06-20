@@ -60,6 +60,36 @@ class UserController extends Controller
         return redirect()->route('dashboard.store-admin')->with('success', 'Akun admin berhasil ditambahkan!');
     }
 
+    public function editadmin($id)
+    {
+        $admin = User::findOrFail($id);
+        return view('dashboard.edit-admin', compact('admin'));
+    }
+
+    /**
+     * Memperbarui MUA yang ada di database.
+     */
+    public function updateadmin(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'no_telp' => 'required|string|max:20',
+            'password' => 'string|max:255',
+        ]);
+
+        $admin = User::findOrFail($id);
+        $admin->update([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'no_telp' => $request->no_telp,
+            'password' => $request->password ? Hash::make($request->password) : $admin->password, // Hanya update password jika diisi
+            'role' => 'admin', // Pastikan role tetap admin
+        ]);
+
+        return redirect()->route('dashboard.akun-admin')->with('success', 'Data MUA berhasil diperbarui!');
+    }
+
     public function destroyadmin($id)
     {
         // Criteria::destroy($criteria->id);

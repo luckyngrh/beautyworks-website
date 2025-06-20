@@ -92,4 +92,8 @@ Route::get('dashboard/akun-admin/create', [UserController::class, 'createadmin']
 
 Route::post('/dashboard/akun-admin', [UserController::class, 'storeadmin'])->name('dashboard.store-admin')->middleware('auth', 'role:admin');
 
+Route::get('/dashboard/akun-admin/{user}/edit', [UserController::class, 'editadmin'])->name('dashboard.edit-admin')->middleware('auth', 'role:admin');
+
+Route::put('/dashboard/akun-admin/{user}', [UserController::class, 'updateadmin'])->name('dashboard.update-admin')->middleware('auth', 'role:admin');
+
 Route::delete('/dashboard/akun-admin/{user}', [UserController::class, 'destroyadmin'])->name('dashboard.destroy-admin')->middleware('auth', 'role:admin');

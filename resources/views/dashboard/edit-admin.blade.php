@@ -18,33 +18,41 @@
     </div>
     @endif
 
-    <form action="{{ route('dashboard.store-admin') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+    <form action="{{ route('dashboard.update-admin', $admin->id) }}" method="POST"
+      class="bg-white p-6 rounded-lg shadow-md">
       @csrf
-
+      @method('PUT')
       <div class="mb-4">
         <label for="nama" class="block text-gray-700 text-sm font-bold mb-2">Nama Admin:</label>
-        <input type="text" name="nama" id="nama" value="{{ old('nama') }}"
+        <input type="text" name="nama" id="nama" value="{{$admin->nama }}"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required>
       </div>
 
       <div class="mb-4">
         <label for="no_telp" class="block text-gray-700 text-sm font-bold mb-2">No. Telepon:</label>
-        <input type="text" name="no_telp" id="no_telp" value="{{ old('no_telp') }}"
+        <input type="text" name="no_telp" id="no_telp" value="{{$admin->no_telp }}"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required>
       </div>
 
       <div class="mb-4">
         <label for="" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-        <input type="email" name="email" id="email" value="{{ old('email') }}"
+        <input type="email" name="email" id="email" value="{{$admin->email }}"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          required>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+        <input type="password" name="password" id="password" placeholder="Kosongkan jika tidak ingin mengubah password"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required>
       </div>
 
       <!-- <div class="flex items-center justify-between"> -->
       <button type="submit" class="btn btn-secondary">
-        Simpan Data
+        Ubah Data
       </button>
       <a href="{{ route('dashboard.akun-admin') }}" class="btn btn-neutral ml-2">
         Kembali

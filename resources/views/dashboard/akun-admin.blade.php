@@ -37,7 +37,7 @@
           <td>{{ $user->email }}</td>
           <td class="text-center">{{ $user->no_telp }}</td>
           <td class="text-center">
-            <a href="" class="btn btn-accent bi bi-pencil-square"></a>
+            <a href="{{ route('dashboard.edit-admin', $user->id) }}" class="btn btn-accent bi bi-pencil-square"></a>
 
             <form class="inline-block" action="{{ route('dashboard.destroy-admin', $user -> id) }}" method="post">
               @method('delete')
