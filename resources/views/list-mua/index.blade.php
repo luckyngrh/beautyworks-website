@@ -37,7 +37,7 @@
           <td>{{ $mua->spesialisasi }}</td>
           <td class="text-center">{{ $mua->no_telp }}</td>
           <td class="text-center">
-            <a href="" class="btn btn-accent bi bi-pencil-square"></a>
+            <a href="{{ route('list-mua.edit', $mua->id_mua) }}" class="btn btn-accent bi bi-pencil-square"></a>
 
             <form class="inline-block" action="{{ route('list-mua.destroy', $mua->id_mua) }}" method="post">
               @method('delete')

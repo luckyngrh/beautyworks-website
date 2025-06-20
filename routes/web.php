@@ -80,6 +80,10 @@ Route::get('/list-mua/create', [ListMuaController::class, 'create'])->name('list
 
 Route::post('/list-mua', [ListMuaController::class, 'store'])->name('list-mua.store');
 
+Route::get('/list-mua/{mua}/edit', [ListMuaController::class, 'edit'])->name('list-mua.edit');
+
+Route::put('/list-mua/{mua}', [ListMuaController::class, 'update'])->name('list-mua.update');
+
 Route::delete('/data-kriteria/{mua}', [ListMuaController::class, 'destroy'])->name('list-mua.destroy');
 
 Route::get('/dashboard/akun-admin', function () {

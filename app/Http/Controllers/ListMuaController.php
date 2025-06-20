@@ -58,6 +58,41 @@ class ListMuaController extends Controller
         // return redirect()->route('list-mua.index')->with('success', 'Data MUA berhasil ditambahkan!');
     }
 
+    public function edit($id_mua)
+    {
+        $mua = ListMua::findOrFail($id_mua);
+        return view('list-mua.edit', compact('mua'));
+    }
+
+    /**
+     * Memperbarui MUA yang ada di database.
+     */
+    public function update(Request $request, $id_mua)
+    {
+        $request->validate([
+            'nama_mua' => 'required|string|max:255',
+            'no_telp' => 'required|string|max:20',
+            'spesialisasi' => 'nullable|array',
+            'spesialisasi.*' => 'string|max:255',
+        ]);
+
+        $mua = ListMua::findOrFail($id_mua);
+
+        $spesialisasi = $request->input('spesialisasi');
+        $spesialisasiString = '';
+        if (is_array($spesialisasi) && !empty($spesialisasi)) {
+            $spesialisasiString = implode(', ', $spesialisasi);
+        }
+
+        $mua->update([
+            'nama_mua' => $request->nama_mua,
+            'no_telp' => $request->no_telp,
+            'spesialisasi' => $spesialisasiString,
+        ]);
+
+        return redirect()->route('list-mua.index')->with('success', 'Data MUA berhasil diperbarui!');
+    }
+
     public function destroy($id_mua)
     {
         // Criteria::destroy($criteria->id);
