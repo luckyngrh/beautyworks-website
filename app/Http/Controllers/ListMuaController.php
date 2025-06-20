@@ -57,4 +57,13 @@ class ListMuaController extends Controller
         // Atau redirect ke halaman index MUA jika ada:
         // return redirect()->route('list-mua.index')->with('success', 'Data MUA berhasil ditambahkan!');
     }
+
+    public function destroy($id_mua)
+    {
+        // Criteria::destroy($criteria->id);
+        $mua = ListMua::findOrFail($id_mua); // Pastikan model kriteria Anda benar
+        $mua->delete();
+        return redirect()->route('list-mua.index')->with('success', 'Data berhasil dihapus!');
+    }
+
 }

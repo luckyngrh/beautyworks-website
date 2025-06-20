@@ -80,6 +80,8 @@ Route::get('/list-mua/create', [ListMuaController::class, 'create'])->name('list
 
 Route::post('/list-mua', [ListMuaController::class, 'store'])->name('list-mua.store');
 
+Route::delete('/data-kriteria/{mua}', [ListMuaController::class, 'destroy'])->name('list-mua.destroy');
+
 Route::get('/dashboard/akun-admin', function () {
     return view('dashboard.akun-admin'); 
 })->name('dashboard.akun-admin')->middleware('auth', 'role:admin');
