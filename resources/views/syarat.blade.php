@@ -1,6 +1,6 @@
 <x-layout>
   <h1 class="text-3xl text-center font-normal mb-3">Syarat dan Ketentuan</h1>
-  <div class="collapse collapse-arrow bg-base-100 border border-base-300 mb-3">
+  <div class="collapse collapse-arrow bg-base-200 border-1 mb-3">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title font-semibold">Biaya Transport</div>
     <div class="collapse-content text-sm">
@@ -19,7 +19,7 @@
   </div>
 
   </div>
-    <div class="collapse collapse-arrow bg-base-100 border border-base-300 mb-3">
+    <div class="collapse collapse-arrow bg-base-200 border-1 mb-3">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title font-semibold">Ketentuan Fitting</div>
     <div class="collapse-content text-sm">
@@ -42,7 +42,7 @@
   </div>
 
   </div>
-    <div class="collapse collapse-arrow bg-base-100 border border-base-300 mb-3">
+    <div class="collapse collapse-arrow bg-base-200 border-1 mb-3">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title font-semibold">Pembayaran</div>
     <div class="collapse-content text-sm">
@@ -67,7 +67,7 @@
   </div>
 
   </div>
-    <div class="collapse collapse-arrow bg-base-100 border border-base-300 mb-3">
+    <div class="collapse collapse-arrow bg-base-200 border-1 mb-3">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title font-semibold">Pembatalan</div>
     <div class="collapse-content text-sm">
@@ -76,7 +76,7 @@
   </div>
 
   </div>
-    <div class="collapse collapse-arrow bg-base-100 border border-base-300 mb-3">
+    <div class="collapse collapse-arrow bg-base-200 border-1 mb-3">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title font-semibold">Lain-lain</div>
     <div class="collapse-content text-sm">
