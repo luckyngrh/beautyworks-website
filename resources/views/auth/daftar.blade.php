@@ -1,3 +1,4 @@
+{{-- resources/views/auth/daftar.blade.php --}}
 <x-layout>
   <div class="flex flex-col items-center h-screen gap-4 pt-6">
     <h1 class="text-3xl">Daftar Beautyworks</h1>
@@ -7,7 +8,7 @@
       <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
         <label class="label">Nama</label>
         <input type="text" class="input" placeholder="Masukkan Nama" name="nama" value="{{ old('nama') }}" required/>
-        @error('name')
+        @error('nama') {{-- Changed @error('name') to @error('nama') --}}
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
 
