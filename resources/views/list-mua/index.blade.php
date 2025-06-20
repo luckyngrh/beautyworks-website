@@ -30,21 +30,23 @@
         </tr>
       </thead>
       <tbody>
-        <td>1</td>
-        <td>Nanda</td>
-        <td>Makeup Wedding, Makeup reguler, Makeup Class</td>
-        <td class="text-center">0986736566712</td>
-        <td class="text-center">
-          <a href="" class="btn btn-accent bi bi-pencil-square"></a>
+        @foreach ($muas as $mua)
+          <td>{{ $loop->iteration }}</td>
+          <td>{{ $mua->nama_mua }}</td>
+          <td>{{ $mua->spesialitas }}</td>
+          <td class="text-center">{{ $mua->no_telp }}</td>
+          <td class="text-center">
+            <a href="" class="btn btn-accent bi bi-pencil-square"></a>
 
-          <form class="inline-block" method="post">
-            @method('delete')
-            @csrf
-            <button type="submit" class="btn btn-error bi bi-trash"
-              onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
-            {{-- Cek nilai criteria_id --}}
-          </form>
-        </td>
+            <form class="inline-block" method="post">
+              @method('delete')
+              @csrf
+              <button type="submit" class="btn btn-error bi bi-trash"
+                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
+              {{-- Cek nilai criteria_id --}}
+            </form>
+          </td>
+        @endforeach
       </tbody>
     </table>
   </div>

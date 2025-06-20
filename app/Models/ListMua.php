@@ -12,7 +12,7 @@ class ListMua extends Model
     protected $primaryKey = 'id_mua';
     protected $fillable = [
         'nama_mua',
-        'bobot_kriteria',
+        'no_telp',
         'spesialisasi',
     ];
 }

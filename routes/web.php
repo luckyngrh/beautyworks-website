@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ListMuaController;
 use App\Http\Controllers\AuthController; // Import AuthController
 
 Route::get('/', function () {
@@ -76,6 +77,10 @@ Route::get('/dashboard/list-mua', function () {
 Route::get('/dashboard/list-mua/create', function () {
     return view('list-mua.create');
 })->name('list-mua.create')->middleware('auth', 'role:admin');
+
+Route::get('/list-mua/create', [ListMuaController::class, 'create'])->name('list-mua.create');
+
+Route::post('/list-mua', [ListMuaController::class, 'store'])->name('list-mua.store');
 
 Route::get('/dashboard/akun-admin', function () {
     return view('dashboard.akun-admin'); 
