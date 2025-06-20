@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('home');
@@ -37,3 +38,12 @@ Route::get('/reservasi', function () {
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi-kami');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/daftar-akun', function () {
+    return view('auth.daftar');
+})->name('daftar-akun');
+Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('daftar-akun.store');

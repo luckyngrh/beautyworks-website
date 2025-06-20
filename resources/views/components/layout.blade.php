@@ -57,7 +57,7 @@
                 <li><a href="{{ route('layanan') }}">Layanan Kami</a></li>
                 <li><a>Testimoni</a></li>
                 <li><a href="{{ route("hubungi-kami") }}">Hubungi Kami</a></li>
-                <li><a>Masuk</a></li>
+                <li><a href="{{ route("login") }}">Login</a></li>
             </ul>
         </div>
     </div>
