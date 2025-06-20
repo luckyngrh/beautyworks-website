@@ -17,24 +17,28 @@
     <table class="table">
       <!-- head -->
       <thead>
-        <tr>
+        <tr class="text-center">
           <th>No</th>
           <th>Pelanggan</th>
           <th>MUA</th>
           <th>Keterangan</th>
           <th>Jadwal</th>
           <th>Kontak</th>
+          <th>Status</th>
           <th class="text-center">Aksi</th>
         </tr>
       </thead>
       <tbody>
-        <td>1</td>
-        <td>Nanda</td>
-        <td>Fifi</td>
-        <td>Private</td>
-        <td>20/06/2025</td>
-        <td>0986736566712</td>
-        <td>Tombol</td>
+        <tr class="text-center">
+          <td>1</td>
+          <td>Nanda</td>
+          <td>Fifi</td>
+          <td>Private</td>
+          <td>20/06/2025</td>
+          <td>0986736566712</td>
+          <td>Sedang Berlangsung</td>
+          <td>Tombol</td>
+        </tr>
       </tbody>
     </table>
   </div>
