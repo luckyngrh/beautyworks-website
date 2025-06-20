@@ -39,7 +39,7 @@
           <td class="text-center">
             <a href="" class="btn btn-accent bi bi-pencil-square"></a>
 
-            <form class="inline-block" action="/list-mua/{{ $mua -> id_mua }}" method="post">
+            <form class="inline-block" action="{{ route('list-mua.destroy', $mua->id_mua) }}" method="post">
               @method('delete')
               @csrf
               <button type="submit" class="btn btn-error bi bi-trash" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
