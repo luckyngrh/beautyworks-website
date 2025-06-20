@@ -68,3 +68,15 @@ Route::get('/dashboard/reservasi-wedding', function () {
 Route::get('/dashboard/kelas-makeup', function () {
     return view('dashboard.kelas-makeup'); 
 })->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');
+
+Route::get('/dashboard/list-mua', function () {
+    return view('list-mua.index'); 
+})->name('list-mua.index')->middleware('auth', 'role:admin');
+
+Route::get('/dashboard/list-mua/create', function () {
+    return view('list-mua.create');
+})->name('list-mua.create')->middleware('auth', 'role:admin');
+
+Route::get('/dashboard/akun-admin', function () {
+    return view('dashboard.akun-admin'); 
+})->name('dashboard.akun-admin')->middleware('auth', 'role:admin');

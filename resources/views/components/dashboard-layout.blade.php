@@ -48,7 +48,9 @@
                   <h1 class="text-3xl font-bold mb-6">Beautiworks by Fifi</h1>
                   <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                   <li><a href="{{ route('dashboard.reservasi-reguler') }}">Reservasi</a></li>
-                  <li><a href="{{ route('dashboard.kelas-makeup') }}">Kelas Make up</a></li>
+                  <li><a href="{{ route('dashboard.kelas-makeup') }}">Kelas make-up</a></li>
+                  <li><a href="{{ route('list-mua.index') }}">List MUA</a></li>
+                  <li><a href="{{ route('dashboard.akun-admin') }}">Kelola akun admin</a></li>
                 </div>
                 <div class="">
                   <!-- <li> -->
