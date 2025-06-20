@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User; // Gunakan App\Models\User
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,21 +11,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'no_telp' => 'required|string|max:13|min:12|unique:users,no_telp',
-            'email' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users', // Tambahkan unique rule for email
             'alamat' => 'nullable|string|max:255',
-            'password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed', // Tambahkan min length dan confirmed rule
         ]);
 
         User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
             'no_telp' => $request->no_telp,
             'email' => $request->email,
             'alamat' => $request->alamat,
             'password' => Hash::make($request->password),
+            'role' => 'user', // Set default role to 'user' for new registrations
         ]);
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan login.');
     }
 }

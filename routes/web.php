@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController; // Import AuthController
 
 Route::get('/', function () {
     return view('home');
@@ -33,7 +34,7 @@ Route::get('/layanan-kami', function () {
 
 Route::get('/reservasi', function () {
     return view('reservasi');
-})->name('reservasi');
+})->name('reservasi')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
@@ -43,7 +44,15 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::post('/login', [AuthController::class, 'login']); // Gunakan AuthController untuk login
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // Rute untuk logout
+
 Route::get('/daftar-akun', function () {
     return view('auth.daftar');
 })->name('daftar-akun');
 Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('daftar-akun.store');
+
+// Rute untuk dashboard admin
+Route::get('/dashboard', function () {
+    return view('dashboard'); // Anda perlu membuat view dashboard.blade.php
+})->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses

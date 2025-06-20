@@ -57,7 +57,19 @@
                 <li><a href="{{ route('layanan') }}">Layanan Kami</a></li>
                 <li><a>Testimoni</a></li>
                 <li><a href="{{ route("hubungi-kami") }}">Hubungi Kami</a></li>
-                <li><a href="{{ route("login") }}">Login</a></li>
+                @guest
+                    <li><a href="{{ route("login") }}">Login</a></li>
+                @else
+                    @if(Auth::user()->role === 'admin')
+                        <li><a href="{{ route('dashboard') }}">Dashboard Admin</a></li>
+                    @endif
+                    <li>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                @endguest
             </ul>
         </div>
     </div>
