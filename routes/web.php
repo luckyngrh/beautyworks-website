@@ -57,9 +57,13 @@ Route::get('/dashboard', function () {
     return view('dashboard.index'); 
 })->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses
 
-Route::get('/dashboard/reservasi', function () {
-    return view('dashboard.reservasi'); 
-})->name('dashboard.reservasi')->middleware('auth', 'role:admin');
+Route::get('/dashboard/reservasi-reguler', function () {
+    return view('dashboard.reservasi-reguler'); 
+})->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
+
+Route::get('/dashboard/reservasi-wedding', function () {
+    return view('dashboard.reservasi-wedding'); 
+})->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 
 Route::get('/dashboard/kelas-makeup', function () {
     return view('dashboard.kelas-makeup'); 

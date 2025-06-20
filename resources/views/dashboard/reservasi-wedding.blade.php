@@ -1,7 +1,10 @@
 <x-dashboard-layout>
-  <H1 class="text-4xl mb-3">Daftar Kelas</H1>
+  <H1 class="text-4xl mb-3">Daftar Reservasi</H1>
   <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline">
-    <a href="{{ route('dashboard.kelas-makeup') }}" class="btn btn-primary">Kelas Makeup</a>
+    <div class="flex flex-col md:flex-row gap-4 mb-4 border-2 p-4 rounded-2xl max-w-fit">
+      <a href="{{ route('dashboard.reservasi-reguler') }}" class="btn btn-outline">Reguler</a>
+      <a href="{{ route('dashboard.reservasi-wedding') }}" class="btn btn-primary">Wedding</a>
+    </div>
     
     <div class="join">
       <div>
@@ -31,7 +34,7 @@
         <td>1</td>
         <td>Nanda</td>
         <td>Fifi</td>
-        <td>Private</td>
+        <td>Make-Up Wedding</td>
         <td>20/06/2025</td>
         <td>0986736566712</td>
         <td>Tombol</td>

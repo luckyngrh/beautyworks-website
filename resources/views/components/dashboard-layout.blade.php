@@ -47,7 +47,7 @@
                 <div>
                   <h1 class="text-3xl font-bold mb-6">Beautiworks by Fifi</h1>
                   <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                  <li><a href="{{ route('dashboard.reservasi') }}">Reservasi</a></li>
+                  <li><a href="{{ route('dashboard.reservasi-reguler') }}">Reservasi</a></li>
                   <li><a href="{{ route('dashboard.kelas-makeup') }}">Kelas Make up</a></li>
                 </div>
                 <div class="">
