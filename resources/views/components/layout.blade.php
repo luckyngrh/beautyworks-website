@@ -63,12 +63,15 @@
                     @if(Auth::user()->role === 'admin')
                         <li><a href="{{ route('dashboard') }}">Dashboard Admin</a></li>
                     @endif
-                    <li>
+                    <!-- <li> -->
+                        <li>
+                            <a href="{{ route('reservasi') }}">Reservasi</a>
+                        </li>
                         <form action="{{ route('logout') }}" method="post">
                           @csrf
-                          <button type="submit" class="btn btn-ghost w-60">Logout</button>
+                          <button type="submit" class="btn btn-primary w-[100%] mt-5">Logout</button>
                         </form>
-                    </li>
+                    <!-- </li> -->
                 @endguest
             </ul>
         </div>
