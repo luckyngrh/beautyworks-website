@@ -29,4 +29,42 @@ class UserController extends Controller
 
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan login.');
     }
+
+    public function indexadmin()
+    {
+        $users = User::where('role', 'admin')->get();
+        return view('dashboard.akun-admin', compact('users'));
+    }
+
+    public function createadmin()
+    {
+        return view('dashboard.create-admin');
+    }
+
+    public function storeadmin(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'no_telp' => 'required|string|max:13|min:12|unique:users,no_telp',
+            'email' => 'required|string|max:255|unique:users', // Tambahkan unique rule for email
+        ]);
+
+        User::create([
+            'nama' => $request->nama,
+            'no_telp' => $request->no_telp,
+            'email' => $request->email,
+            'password' => Hash::make('beautyworks123'),
+            'role' => 'admin',
+        ]);
+
+        return redirect()->route('dashboard.store-admin')->with('success', 'Akun admin berhasil ditambahkan!');
+    }
+
+    public function destroyadmin($id)
+    {
+        // Criteria::destroy($criteria->id);
+        $admin = User::findOrFail($id); // Pastikan model kriteria Anda benar
+        $admin->delete();
+        return redirect()->route('dashboard.akun-admin')->with('success', 'Data berhasil dihapus!');
+    }
 }

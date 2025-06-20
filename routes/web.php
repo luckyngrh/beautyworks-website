@@ -84,8 +84,12 @@ Route::get('/list-mua/{mua}/edit', [ListMuaController::class, 'edit'])->name('li
 
 Route::put('/list-mua/{mua}', [ListMuaController::class, 'update'])->name('list-mua.update');
 
-Route::delete('/data-kriteria/{mua}', [ListMuaController::class, 'destroy'])->name('list-mua.destroy');
+Route::delete('/list-mua/{mua}', [ListMuaController::class, 'destroy'])->name('list-mua.destroy');
 
-Route::get('/dashboard/akun-admin', function () {
-    return view('dashboard.akun-admin'); 
-})->name('dashboard.akun-admin')->middleware('auth', 'role:admin');
+Route::get('/dashboard/akun-admin', [UserController::class, 'indexadmin'])->name('dashboard.akun-admin')->middleware('auth', 'role:admin');
+
+Route::get('dashboard/akun-admin/create', [UserController::class, 'createadmin'])->name('dashboard.create-admin')->middleware('auth', 'role:admin');
+
+Route::post('/dashboard/akun-admin', [UserController::class, 'storeadmin'])->name('dashboard.store-admin')->middleware('auth', 'role:admin');
+
+Route::delete('/dashboard/akun-admin/{user}', [UserController::class, 'destroyadmin'])->name('dashboard.destroy-admin')->middleware('auth', 'role:admin');
