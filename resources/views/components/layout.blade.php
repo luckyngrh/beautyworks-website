@@ -65,8 +65,8 @@
                     @endif
                     <li>
                         <form action="{{ route('logout') }}" method="post">
-                            @csrf
-                            <button type="submit">Logout</button>
+                          @csrf
+                          <button type="submit" class="btn btn-ghost w-60">Logout</button>
                         </form>
                     </li>
                 @endguest
