@@ -54,5 +54,13 @@ Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('dafta
 
 // Rute untuk dashboard admin
 Route::get('/dashboard', function () {
-    return view('dashboard'); // Anda perlu membuat view dashboard.blade.php
+    return view('dashboard.index'); 
 })->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses
+
+Route::get('/dashboard/reservasi', function () {
+    return view('dashboard.reservasi'); 
+})->name('dashboard.reservasi')->middleware('auth', 'role:admin');
+
+Route::get('/dashboard/kelas-makeup', function () {
+    return view('dashboard.kelas-makeup'); 
+})->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');
