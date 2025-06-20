@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautyworks</title>
+    <title>Beautyworks by Fifi</title>
     @vite('resources/css/app.css')
 </head>
 <body>
@@ -62,8 +62,11 @@
                 @else
                     @if(Auth::user()->role === 'admin')
                         <li><a href="{{ route('dashboard') }}">Dashboard Admin</a></li>
-                    @endif
-                    <!-- <li> -->
+                        <form action="{{ route('logout') }}" method="post">
+                          @csrf
+                          <button type="submit" class="btn btn-primary w-[100%] mt-5">Logout</button>
+                        </form>
+                    @elseif(Auth::user()->role === 'user')
                         <li>
                             <a href="{{ route('reservasi') }}">Reservasi</a>
                         </li>
@@ -71,7 +74,7 @@
                           @csrf
                           <button type="submit" class="btn btn-primary w-[100%] mt-5">Logout</button>
                         </form>
-                    <!-- </li> -->
+                    @endif
                 @endguest
             </ul>
         </div>
