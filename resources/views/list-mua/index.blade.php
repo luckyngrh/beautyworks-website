@@ -31,9 +31,10 @@
       </thead>
       <tbody>
         @foreach ($muas as $mua)
+        <tr class="hover:bg-base-300">
           <td>{{ $loop->iteration }}</td>
           <td>{{ $mua->nama_mua }}</td>
-          <td>{{ $mua->spesialitas }}</td>
+          <td>{{ $mua->spesialisasi }}</td>
           <td class="text-center">{{ $mua->no_telp }}</td>
           <td class="text-center">
             <a href="" class="btn btn-accent bi bi-pencil-square"></a>
@@ -43,9 +44,9 @@
               @csrf
               <button type="submit" class="btn btn-error bi bi-trash"
                 onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
-              {{-- Cek nilai criteria_id --}}
             </form>
           </td>
+        </tr>
         @endforeach
       </tbody>
     </table>
