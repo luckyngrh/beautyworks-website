@@ -10,10 +10,18 @@ class ListMuaController extends Controller
     /**
      * Menampilkan daftar MUA.
      */
-    public function index()
+    public function index(Request $request) // Tambahkan Request $request
     {
         // Logika untuk menampilkan daftar MUA (jika ada)
-        $muas = ListMua::all();
+        $query = ListMua::query(); // Gunakan query builder
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('nama_mua', 'like', '%' . $search . '%');
+        }
+
+        $muas = $query->get(); // Ambil data setelah filter
+
         return view('list-mua.index', compact('muas'));
     }
 

@@ -1,15 +1,16 @@
 <x-dashboard-layout>
   <H1 class="text-4xl mb-3">List MUA Beautyworks by Fifi</H1>
 
-  <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline justify-between">    
-    <div class="join">
+  <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline justify-between">
+    {{-- Form Pencarian --}}
+    <form action="{{ route('list-mua.index') }}" method="GET" class="join">
       <div>
         <label class="input validator join-item">
-          <input type="text" placeholder="Cari Nama" required />
+          <input type="text" placeholder="Cari Nama" name="search" value="{{ request('search') }}" />
         </label>
       </div>
-      <button class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
-    </div>
+      <button type="submit" class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
+    </form>
 
     <div>
       <a class="btn btn-primary bi bi-patch-plus-fill" href="{{ route('list-mua.create') }}">Tambah MUA</a>
@@ -19,7 +20,6 @@
 
   <div class="overflow-x-auto rounded-box border border-base-content bg-base-200">
     <table class="table">
-      <!-- head -->
       <thead>
         <tr>
           <th>No</th>
@@ -42,8 +42,8 @@
             <form class="inline-block" action="{{ route('list-mua.destroy', $mua->id_mua) }}" method="post">
               @method('delete')
               @csrf
-              <button type="submit" class="btn btn-error bi bi-trash" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
-              <!-- <p>ID: {{ $mua -> id_mua }}</p>  -->
+              <button type="submit" class="btn btn-error bi bi-trash"
+                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
             </form>
           </td>
         </tr>
