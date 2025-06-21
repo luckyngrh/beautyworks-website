@@ -12,6 +12,10 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 } */
 
+.font-allura {
+    font-family: 'Allura', cursive;
+}
+
 @plugin "daisyui" {
   name: "beautyworks";
   default: true;

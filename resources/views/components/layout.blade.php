@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beautyworks by Fifi</title>
     @vite('resources/css/app.css')
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="drawer">
@@ -33,14 +36,14 @@
                         points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
                     </svg>
                 </label>
-                <h1 class="font-bold text-2xl">Beautyworks by Fifi </h1>
+                <h1 class="font-bold text-4xl font-allura">Beautyworks by Fifi </h1>
                 <img class="w-[10%]" src="{{ asset('images/logo.png') }}" alt="Logo">
             </header>
         </div>
         <div class="drawer-side">
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-                <h1 class="text-3xl font-bold mb-6">Beautiworks by Fifi</h1>
+                <h1 class="text-3xl font-bold mb-6 font-allura">Beautiworks by Fifi</h1>
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li>
                     <details open>
