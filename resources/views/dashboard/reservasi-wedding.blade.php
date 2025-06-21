@@ -42,7 +42,17 @@
           <td>{{ \Carbon\Carbon::parse($item->tanggal_appointment)->format('d/m/Y') }}</td>
           <td>{{ \Carbon\Carbon::parse($item->waktu_appointment)->format('H:i') }}</td>
           <td>{{ $item->kontak }}</td>
-          <td>{{ $item->status }}</td>
+          <td>
+            @if ($item->status == 'Menunggu Konfirmasi')
+            <span class="badge badge-warning">{{ $item->status }}</span>
+            @elseif ($item->status == 'Diproses')
+            <span class="badge badge-info">{{ $item->status }}</span>
+            @elseif ($item->status == 'Selesai')
+            <span class="badge badge-success">{{ $item->status }}</span>
+            @elseif ($item->status == 'Dibatalkan')
+            <span class="badge badge-error">{{ $item->status }}</span>
+            @endif
+          </td>
           <td class="text-center">
             <a href="" class="btn btn-primary">Detail</a>
           </td>
