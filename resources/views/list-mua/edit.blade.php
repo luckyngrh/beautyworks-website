@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
+      <div class="flex items-center">
         <button type="submit" class="btn btn-secondary">
           Update MUA
         </button>

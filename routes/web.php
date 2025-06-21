@@ -79,6 +79,10 @@ Route::get('/dashboard', function () {
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 Route::get('dashboard/reservasi-reguler', [AppointmentController::class, 'indexreguler'])->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
 
+Route::get('/dashboard/edit-appointment', function () {
+    return view('dashboard.edit-appointment'); 
+})->name('dashboard.edit-appointment')->middleware('auth', 'role:admin');
+
 Route::get('/dashboard/kelas-makeup', function () {
     return view('dashboard.kelas-makeup'); 
 })->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');

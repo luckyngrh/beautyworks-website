@@ -24,19 +24,59 @@
 
       <div class="mb-4">
         <label for="" class="block text-gray-700 text-sm font-bold mb-2">Nama Pelanggan :</label>
-        <input type="text" 
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          required>
+        <input type="text"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          required disabled>
       </div>
 
       <div class="mb-4">
         <label for="no_telp" class="block text-gray-700 text-sm font-bold mb-2">Nama MUA :</label>
-        <input type="text" 
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        <select class="w-full select select-bordered mb-3">
+          <option disabled selected>Pilih MUA</option>
+          <option value="">Fifi</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="no_telp" class="block text-gray-700 text-sm font-bold mb-2">Jenis Layanan :</label>
+        <input type="text"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required>
       </div>
 
-      <div class="flex items-center justify-between">
+      <div class="mb-4">
+        <label for="" class="block text-gray-700 text-sm font-bold mb-2">Tanggal :</label>
+        <input type="date"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          required>
+      </div>
+
+      <div class="mb-4">
+        <label for="" class="block text-gray-700 text-sm font-bold mb-2">Jam :</label>
+        <input type="text"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          required>
+      </div>
+
+      <div class="mb-4">
+        <label for="" class="block text-gray-700 text-sm font-bold mb-2">Kontak :</label>
+        <input type="text"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          required>
+      </div>
+
+      <div class="mb-4">
+        <label for="" class="block text-gray-700 text-sm font-bold mb-2">Status :</label>
+        <select class="w-full select select-bordered mb-3">
+          <option disabled selected>Konfirmasi</option>
+          <option value="">Menunggu Konfirmasi</option>
+          <option value="">Diproses</option>
+          <option value="">Selesai</option>
+          <option value="">Dibatalkan</option>
+        </select>
+      </div>
+
+      <div class="flex items-center">
         <button type="submit" class="btn btn-secondary">
           Update MUA
         </button>
