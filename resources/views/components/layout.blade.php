@@ -72,7 +72,7 @@
                         </form>
                     @elseif(Auth::user()->role === 'user')
                         <li>
-                            <a href="{{ route('reservasi') }}">Reservasi</a>
+                            <a href="{{ route('appointment') }}">Buat Appointment</a>
                         </li>
                         <form action="{{ route('logout') }}" method="post">
                           @csrf

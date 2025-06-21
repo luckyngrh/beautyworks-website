@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListMuaController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController; // Import AuthController
 
 Route::get('/', function () {
@@ -41,13 +42,15 @@ Route::get('/testimoni', function () {
     return view('testimoni');
 })->name('testimoni');
 
-Route::get('/reservasi', function () {
-    return view('reservasi');
-})->name('reservasi')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
+Route::get('/appointment', function () {
+    return view('appointment');
+})->name('appointment')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
+Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store')->middleware('auth', 'role:user');
 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi-kami');
+
 
 Route::get('/login', function () {
     return view('auth.login');
