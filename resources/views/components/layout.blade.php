@@ -41,7 +41,7 @@
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                 <h1 class="text-3xl font-bold mb-6">Beautiworks by Fifi</h1>
-                <li><a href="{{ route('home') }}">Dashboard</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
                 <li>
                     <details open>
                         <summary>Portfolio</summary>
