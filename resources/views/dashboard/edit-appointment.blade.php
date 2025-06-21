@@ -18,7 +18,8 @@
     </div>
     @endif
 
-    <form action="{{ route('dashboard.update-appointment', $appointment->id_appointment) }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+    <form action="{{ route('dashboard.update-appointment', $appointment->id_appointment) }}" method="POST"
+      class="bg-white p-6 rounded-lg shadow-md">
       @csrf
       @method('PUT') {{-- Use PUT method for update --}}
 
@@ -34,23 +35,24 @@
         <select class="w-full select select-bordered mb-3" name="id_mua" id="id_mua">
           <option value="">Pilih MUA</option>
           @foreach ($availableMuas as $mua)
-            <option value="{{ $mua->id_mua }}" {{ $appointment->id_mua == $mua->id_mua ? 'selected' : '' }}>
-              {{ $mua->nama_mua }}
-            </option>
+          <option value="{{ $mua->id_mua }}" {{ $appointment->id_mua == $mua->id_mua ? 'selected' : '' }}>
+            {{ $mua->nama_mua }}
+          </option>
           @endforeach
         </select>
         @error('id_mua')
-            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
 
       <div class="mb-4">
         <label for="jenis_layanan" class="block text-gray-700 text-sm font-bold mb-2">Jenis Layanan :</label>
-        <input type="text" id="jenis_layanan" name="jenis_layanan"
-          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value="{{ $appointment->jenis_layanan }}" required>
-        @error('jenis_layanan')
-            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        <select class="w-full select select-bordered mb-3" name="jenis_layanan" id="jenis_layanan">
+          <option value="Make-up Reguler" {{ $appointment->jenis_layanan == 'Make-up Reguler' ? 'selected' : '' }}>Make-up Reguler</option>
+          <option value="Make-up Wedding" {{ $appointment->jenis_layanan == 'Make-up Wedding' ? 'selected' : '' }}>Make-up Wedding</option>
+        </select>
+        @error('status')
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
 
@@ -60,7 +62,7 @@
           class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="{{ $appointment->tanggal_appointment }}" required>
         @error('tanggal_appointment')
-            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
 
@@ -70,7 +72,7 @@
           class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="{{\Carbon\Carbon::parse($appointment->waktu_appointment)->format('H:i') }}" required>
         @error('waktu_appointment')
-            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
 
@@ -80,20 +82,21 @@
           class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="{{ $appointment->kontak }}" required>
         @error('kontak')
-            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
 
       <div class="mb-4">
         <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status :</label>
         <select class="w-full select select-bordered mb-3" name="status" id="status">
-          <option value="Menunggu Konfirmasi" {{ $appointment->status == 'Menunggu Konfirmasi' ? 'selected' : '' }}>Menunggu Konfirmasi</option>
+          <option value="Menunggu Konfirmasi" {{ $appointment->status == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
+            Menunggu Konfirmasi</option>
           <option value="Diproses" {{ $appointment->status == 'Diproses' ? 'selected' : '' }}>Diproses</option>
           <option value="Selesai" {{ $appointment->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
           <option value="Dibatalkan" {{ $appointment->status == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
         </select>
         @error('status')
-            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
 

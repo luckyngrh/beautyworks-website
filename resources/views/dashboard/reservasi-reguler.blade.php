@@ -58,15 +58,6 @@
           </td>
         </tr>
         @endforeach
-        <tr class="text-center">
-          <td>1</td>
-          <td>Nanda</td>
-          <td>Fifi</td>
-          <td>Make-Up Reguler</td>
-          <td>20/06/2025</td>
-          <td>0986736566712</td>
-          <td>Sedang Berlangsung</td>
-          <td>Tombol</td>
         </tr>
       </tbody>
     </table>
