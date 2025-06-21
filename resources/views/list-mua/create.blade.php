@@ -39,17 +39,17 @@
         <label class="block text-gray-700 text-sm font-bold mb-2">Spesialisasi:</label>
         <div class="gap-2">
           <div>
-            <input type="checkbox" id="spesialisasi_wedding" name="spesialisasi[]" value="Makeup Wedding"
+            <input type="checkbox" id="spesialisasi_wedding" name="spesialisasi[]" value="Make-up Wedding"
               class="mr-2 leading-tight" {{ in_array('Makeup Wedding', old('spesialisasi', [])) ? 'checked' : '' }}>
             <label for="spesialisasi_wedding" class="text-gray-700">Makeup Wedding</label>
           </div>
           <div>
-            <input type="checkbox" id="spesialisasi_reguler" name="spesialisasi[]" value="Makeup Reguler"
+            <input type="checkbox" id="spesialisasi_reguler" name="spesialisasi[]" value="Make-up Reguler"
               class="mr-2 leading-tight" {{ in_array('Makeup Reguler', old('spesialisasi', [])) ? 'checked' : '' }}>
             <label for="spesialisasi_reguler" class="text-gray-700">Makeup Reguler</label>
           </div>
           <div>
-            <input type="checkbox" id="spesialisasi_class" name="spesialisasi[]" value="Makeup Class"
+            <input type="checkbox" id="spesialisasi_class" name="spesialisasi[]" value="Make-up Class"
               class="mr-2 leading-tight"
               {{ in_array('Makeup Class', old('spesialisasi', [])) ? 'checked' : '' }}>
             <label for="spesialisasi_class" class="text-gray-700">Makeup Class</label>
