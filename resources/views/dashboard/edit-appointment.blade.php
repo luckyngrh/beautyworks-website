@@ -26,7 +26,7 @@
       <div class="mb-4">
         <label for="nama_pelanggan" class="block text-gray-700 text-sm font-bold mb-2">Nama Pelanggan :</label>
         <input type="text" id="nama_pelanggan"
-          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="{{ $appointment->user->nama }}" required disabled>
       </div>
 
@@ -48,8 +48,10 @@
       <div class="mb-4">
         <label for="jenis_layanan" class="block text-gray-700 text-sm font-bold mb-2">Jenis Layanan :</label>
         <select class="w-full select select-bordered mb-3" name="jenis_layanan" id="jenis_layanan">
-          <option value="Make-up Reguler" {{ $appointment->jenis_layanan == 'Make-up Reguler' ? 'selected' : '' }}>Make-up Reguler</option>
-          <option value="Make-up Wedding" {{ $appointment->jenis_layanan == 'Make-up Wedding' ? 'selected' : '' }}>Make-up Wedding</option>
+          <option value="Make-up Reguler" {{ $appointment->jenis_layanan == 'Make-up Reguler' ? 'selected' : '' }}>
+            Make-up Reguler</option>
+          <option value="Make-up Wedding" {{ $appointment->jenis_layanan == 'Make-up Wedding' ? 'selected' : '' }}>
+            Make-up Wedding</option>
         </select>
         @error('status')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -100,7 +102,7 @@
         @enderror
       </div>
 
-      <div class="flex items-center">
+      <div class="flex fleitems-center justify-between">
         <button type="submit" class="btn btn-secondary">
           Update Appointment
         </button>
@@ -108,6 +110,5 @@
           Kembali
         </a>
       </div>
-    </form>
   </div>
 </x-dashboard-layout>

@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListMuaController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController; // Import AuthController
+use App\Models\Appointment;
 
 Route::get('/', function () {
     return view('home');
@@ -75,6 +76,7 @@ Route::get('dashboard/reservasi-reguler', [AppointmentController::class, 'indexr
 // Rute untuk mengedit dan mengupdate appointment
 Route::get('/dashboard/edit-appointment/{appointment}', [AppointmentController::class, 'edit'])->name('dashboard.edit-appointment')->middleware('auth', 'role:admin');
 Route::put('/dashboard/update-appointment/{appointment}', [AppointmentController::class, 'update'])->name('dashboard.update-appointment')->middleware('auth', 'role:admin');
+Route::delete('/dashboard/delete-appointment/{appointment}', [AppointmentController::class, 'destroy'])->name('dashboard.delete-appointment')->middleware('auth', 'role:admin');
 
 
 Route::get('/dashboard/kelas-makeup', function () {

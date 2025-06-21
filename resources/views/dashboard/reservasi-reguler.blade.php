@@ -55,6 +55,13 @@
           </td>
           <td class="text-center">
             <a href="{{ route('dashboard.edit-appointment', $item->id_appointment) }}"class="btn btn-primary">Detail</a>
+
+            <form class="inline-block" action="{{ route('dashboard.delete-appointment', $item->id_appointment) }}" method="post">
+              @method('delete')
+              @csrf
+              <button type="submit" class="btn btn-error"
+                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus Data</button>
+            </form>
           </td>
         </tr>
         @endforeach

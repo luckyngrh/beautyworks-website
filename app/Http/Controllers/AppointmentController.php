@@ -99,4 +99,16 @@ class AppointmentController extends Controller
         }
         return redirect()->route('dashboard.reservasi-reguler')->with('success', 'Data appointment berhasil diperbarui!');
     }
+
+    public function destroy($id_appointment)
+    {
+        $appointment = Appointment::findOrFail($id_appointment);
+        $appointment->delete();
+
+        // Redirect ke halaman daftar reservasi yang sesuai
+        if ($appointment->jenis_layanan == 'Make-up Wedding') {
+            return redirect()->route('dashboard.reservasi-wedding')->with('success', 'Data appointment berhasil dihapus!');
+        }
+        return redirect()->route('dashboard.reservasi-reguler')->with('success', 'Data appointment berhasil dihapus!');
+    }
 }
