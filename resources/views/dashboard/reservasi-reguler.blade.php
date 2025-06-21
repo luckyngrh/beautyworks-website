@@ -44,17 +44,17 @@
           <td>{{ $item->kontak }}</td>
           <td>
             @if ($item->status == 'Menunggu Konfirmasi')
-              <span class="badge badge-warning">{{ $item->status }}</span>
+            <span class="badge badge-warning">{{ $item->status }}</span>
             @elseif ($item->status == 'Diproses')
-              <span class="badge badge-info">{{ $item->status }}</span>
+            <span class="badge badge-info">{{ $item->status }}</span>
             @elseif ($item->status == 'Selesai')
-              <span class="badge badge-success">{{ $item->status }}</span>
+            <span class="badge badge-success">{{ $item->status }}</span>
             @elseif ($item->status == 'Dibatalkan')
-              <span class="badge badge-error">{{ $item->status }}</span>
+            <span class="badge badge-error">{{ $item->status }}</span>
             @endif
           </td>
           <td class="text-center">
-            <a href="" class="btn btn-primary">Detail</a>
+            <a href="{{ route('dashboard.edit-appointment', $item->id_appointment) }}"class="btn btn-primary">Detail</a>
           </td>
         </tr>
         @endforeach

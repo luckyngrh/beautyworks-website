@@ -54,7 +54,7 @@
             @endif
           </td>
           <td class="text-center">
-            <a href="" class="btn btn-primary">Detail</a>
+            <a href="{{ route('dashboard.edit-appointment', $item->id_appointment) }}"class="btn btn-primary">Detail</a>
           </td>
         </tr>
         @endforeach

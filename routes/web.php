@@ -66,25 +66,19 @@ Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('dafta
 
 // Rute untuk dashboard admin
 Route::get('/dashboard', function () {
-    return view('dashboard.index'); 
+    return view('dashboard.index');
 })->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses
 
-// Route::get('/dashboard/reservasi-reguler', function () {
-//     return view('dashboard.reservasi-reguler'); 
-// })->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
-
-// // Route::get('/dashboard/reservasi-wedding', function () {
-// //     return view('dashboard.reservasi-wedding'); 
-// // })->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 Route::get('dashboard/reservasi-reguler', [AppointmentController::class, 'indexreguler'])->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
 
-Route::get('/dashboard/edit-appointment', function () {
-    return view('dashboard.edit-appointment'); 
-})->name('dashboard.edit-appointment')->middleware('auth', 'role:admin');
+// Rute untuk mengedit dan mengupdate appointment
+Route::get('/dashboard/edit-appointment/{appointment}', [AppointmentController::class, 'edit'])->name('dashboard.edit-appointment')->middleware('auth', 'role:admin');
+Route::put('/dashboard/update-appointment/{appointment}', [AppointmentController::class, 'update'])->name('dashboard.update-appointment')->middleware('auth', 'role:admin');
+
 
 Route::get('/dashboard/kelas-makeup', function () {
-    return view('dashboard.kelas-makeup'); 
+    return view('dashboard.kelas-makeup');
 })->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');
 
 Route::get('/dashboard/list-mua/create', function () {
