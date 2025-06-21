@@ -8,7 +8,7 @@
       <img src="{{ asset('images/wedding4.jpg') }}" alt="Makeup Wedding"
         class="mx-auto object-cover rounded-lg shadow-md mb-2">
       <p class="text-gray-700 min-h-20 mb-2">Untuk Akad & Resepsi, bisa Retouch</p>
-      <a href="{{ route('reservasi') }}"
+      <a href="{{ route('appointment') }}"
         class="inline-block px-4 py-2 border border-pink-500 text-pink-500 rounded hover:bg-pink-50 transition">
         Reservation Now
       </a>
@@ -22,7 +22,7 @@
       <img src="{{ asset('images/events2.jpg') }}" alt="Makeup Wedding"
         class="mx-auto object-cover rounded-lg shadow-md mb-2">
       <p class="text-gray-700 min-h-20 mb-2">Make-Up Photoshoot, Make-Up Wisuda, Make-Up Party</p>
-      <a href="{{ route('reservasi') }}"
+      <a href="{{ route('appointment') }}"
         class="inline-block px-4 py-2 border border-pink-500 text-pink-500 rounded hover:bg-pink-50 transition">
         Reservation Now
       </a>
@@ -36,7 +36,7 @@
       <img src="{{ asset('images/class5.jpg') }}" alt="Makeup Wedding"
         class="mx-auto object-cover rounded-lg shadow-md mb-2">
       <p class="text-gray-700 min-h-20 mb-2">Basic Makeup Class, Professional Class, Private Class</p>
-      <a href="{{ route('reservasi') }}"
+      <a href="{{ route('appointment') }}"
         class="inline-block px-4 py-2 border border-pink-500 text-pink-500 rounded hover:bg-pink-50 transition">
         Reservation Now
       </a>
