@@ -1,8 +1,7 @@
 <x-layout>
   <div class="container mx-auto px-4 py-10">
     <!-- Judul -->
-    <h1 class="text-center text-pink-600 text-3xl font-semibold mb-4">Beautyworks by Fifi</h1>
-    <h2 class="text-center text-pink-600 text-2xl font-medium mb-10">Wedding Make Up</h2>
+    <h2 class="text-center text-3xl font-semibold mb-10">Wedding Make Up</h2>
 
     <!-- Grid Foto -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">

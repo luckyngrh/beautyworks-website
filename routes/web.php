@@ -33,6 +33,10 @@ Route::get('/layanan-kami', function () {
     return view('layanan');
 })->name('layanan');
 
+Route::get('/testimoni', function () {
+    return view('testimoni');
+})->name('testimoni');
+
 Route::get('/reservasi', function () {
     return view('reservasi');
 })->name('reservasi')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
