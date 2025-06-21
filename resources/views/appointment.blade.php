@@ -1,10 +1,6 @@
 <x-layout>
-  @php
-    $id_user = Auth::user()->id;
-    $no_telp_user = Auth::user()->no_telp;
-  @endphp
   <h1 class="text-4xl text-center mb-2">Buat Appointment di <span class="font-allura text-5xl">Beautyworks by Fifi</span></h1>
-  <form action="{{ route('appointment', $id_user, $no_telp_user) }}" method="post">
+  <form action="{{ route('appointment.store') }}" method="post">
     @csrf
     <div class="bg-base-300 p-4 rounded-lg w-xl mx-auto">
       <div class="flex flex-row gap-4 mb-4">
