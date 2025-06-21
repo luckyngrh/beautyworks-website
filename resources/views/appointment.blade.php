@@ -19,8 +19,8 @@
     <legend for="" class="text-lg mb-1">Jenis Layanan :</legend>
     <select name="jenis_layanan" class="w-full select select-bordered mb-3">
       <option disabled selected>Pilih jenis layanan</option>
-      <option value="benefit">Make-up Wedding</option>
-      <option value="cost">Make-up Reguler/Event</option>
+      <option value="Make-up Wedding">Make-up Wedding</option>
+      <option value="Make-up Reguler">Make-up Reguler/Event</option>
     </select>
     
     <button type="submit" class="btn btn-primary w-full"><i class="bi bi-send-fill"></i>Kirim</button>

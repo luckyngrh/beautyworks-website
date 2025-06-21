@@ -13,7 +13,7 @@ class MuaSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('appointments')->insert([
+        DB::table('list_muas')->insert([
             ['nama_mua' => 'Fifi',
             'no_telp' => '08111234567891',
             'spesialisasi' => 'Makeup Wedding, Makeup Reguler, Makeup Class',

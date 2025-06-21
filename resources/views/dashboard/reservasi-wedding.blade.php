@@ -5,7 +5,7 @@
       <a href="{{ route('dashboard.reservasi-reguler') }}" class="btn btn-outline">Reguler</a>
       <a href="{{ route('dashboard.reservasi-wedding') }}" class="btn btn-primary">Wedding</a>
     </div>
-    
+
     <div class="join">
       <div>
         <label class="input validator join-item">
@@ -24,14 +24,30 @@
           <th>No</th>
           <th>Pelanggan</th>
           <th>MUA</th>
-          <th>Keterangan</th>
-          <th>Jadwal</th>
+          <th>Jenis Layanan</th>
+          <th>Tanggal</th>
+          <th>Waktu</th>
           <th>Kontak</th>
           <th>Status</th>
           <th class="text-center">Aksi</th>
         </tr>
       </thead>
       <tbody>
+        @foreach ($appointments as $item)
+        <tr class="text-center">
+          <td>{{ $loop -> iteration }}</td>
+          <td>{{ $item->nama }}</td>
+          <td>{{ $item->nama_mua }}</td>
+          <td>{{ $item->jenis_layanan }}</td>
+          <td>{{ $item->tanggal_appointment }}</td>
+          <td>{{ $item->waktu_appointment }}</td>
+          <td>{{ $item->kontak }}</td>
+          <td>{{ $item->status }}</td>
+          <td class="text-center">
+            <a href="" class="btn btn-primary">Detail</a>
+          </td>
+        </tr>
+        @endforeach
         <tr class="text-center">
           <td>1</td>
           <td>Nanda</td>

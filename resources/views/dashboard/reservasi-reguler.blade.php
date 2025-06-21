@@ -24,8 +24,9 @@
           <th>No</th>
           <th>Pelanggan</th>
           <th>MUA</th>
-          <th>Keterangan</th>
-          <th>Jadwal</th>
+          <th>Jenis Layanan</th>
+          <th>Tanggal</th>
+          <th>Waktu</th>
           <th>Kontak</th>
           <th>Status</th>
           <th class="text-center">Aksi</th>

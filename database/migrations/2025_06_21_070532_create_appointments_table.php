@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_mua')->nullable();
             $table->string('jenis_layanan', 15);
-            $table->dateTime('tanggal_appointment');
+            $table->date('tanggal_appointment');
             $table->time('waktu_appointment');
             $table->string('kontak');
             $table->string('status', 20)->default('Menunggu Konfirmasi')->nullable(); 

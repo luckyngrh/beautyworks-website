@@ -73,9 +73,10 @@ Route::get('/dashboard/reservasi-reguler', function () {
     return view('dashboard.reservasi-reguler'); 
 })->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
 
-Route::get('/dashboard/reservasi-wedding', function () {
-    return view('dashboard.reservasi-wedding'); 
-})->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
+// Route::get('/dashboard/reservasi-wedding', function () {
+//     return view('dashboard.reservasi-wedding'); 
+// })->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
+Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 
 Route::get('/dashboard/kelas-makeup', function () {
     return view('dashboard.kelas-makeup'); 
