@@ -41,7 +41,7 @@
           <td>{{ $item->jenis_layanan }}</td>
           <td>{{ \Carbon\Carbon::parse($item->tanggal_appointment)->format('d/m/Y') }}</td>
           <td>{{ \Carbon\Carbon::parse($item->waktu_appointment)->format('H:i') }}</td>
-          <td>{{ $item->kontak }}</td>
+          <td>{{ $item->user->no_telp }}</td>
           <td>
             @if ($item->status == 'Menunggu Konfirmasi')
             <span class="badge badge-warning">{{ $item->status }}</span>

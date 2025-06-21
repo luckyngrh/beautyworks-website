@@ -21,7 +21,6 @@ class Appointment extends Model
         'jenis_layanan',
         'tanggal_appointment',
         'waktu_appointment',
-        'kontak',
         'status'
     ];
 

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('jenis_layanan', 15);
             $table->date('tanggal_appointment');
             $table->time('waktu_appointment');
-            $table->string('kontak');
             $table->string('status', 20)->default('Menunggu Konfirmasi')->nullable(); 
             $table->timestamps();
 

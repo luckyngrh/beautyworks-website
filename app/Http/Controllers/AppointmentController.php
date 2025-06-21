@@ -49,7 +49,6 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $id_user = Auth::user()->id;
-        $no_telp_user = Auth::user()->no_telp;
 
         $request->validate([
             'jenis_layanan' => 'required|string|max:255',
@@ -87,7 +86,6 @@ class AppointmentController extends Controller
             'jenis_layanan' => $request->jenis_layanan,
             'tanggal_appointment' => $request->tanggal_appointment,
             'waktu_appointment' => $request->waktu_appointment,
-            'kontak' => $no_telp_user,
             'status' => 'Menunggu Konfirmasi',
         ]);
 
