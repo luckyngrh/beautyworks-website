@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
+    public function indexwedding()
+    {
+        // Ambil data appointment untuk user yang sedang login
+        // $appointments = Appointment::where('id_user', Auth::user()->id)->get();
+        $appointments = Appointment::where('jenis_layanan', 'Make-up Wedding')
+        ->orderBy('tanggal_appointment', 'desc')
+        ->get();
+
+        return view('dashboard.reservasi-wedding', compact('appointments'));
+    }
     public function store(Request $request)
     {
         // Ambil id_user dari user yang sedang login
