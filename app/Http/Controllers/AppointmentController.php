@@ -14,6 +14,7 @@ class AppointmentController extends Controller
         // Ambil data appointment untuk user yang sedang login
         // $appointments = Appointment::where('id_user', Auth::user()->id)->get();
         $appointments = Appointment::where('jenis_layanan', 'Make-up Wedding')
+        ->with('user','mua') 
         ->orderBy('tanggal_appointment', 'desc')
         ->get();
 

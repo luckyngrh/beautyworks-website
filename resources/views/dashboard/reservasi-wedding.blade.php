@@ -36,11 +36,11 @@
         @foreach ($appointments as $item)
         <tr class="text-center">
           <td>{{ $loop -> iteration }}</td>
-          <td>{{ $item->nama }}</td>
-          <td>{{ $item->nama_mua }}</td>
+          <td>{{ $item->user->nama}}</td>
+          <td>{{ $item->mua->nama_mua ?? 'NA' }}</td>
           <td>{{ $item->jenis_layanan }}</td>
-          <td>{{ $item->tanggal_appointment }}</td>
-          <td>{{ $item->waktu_appointment }}</td>
+          <td>{{ \Carbon\Carbon::parse($item->tanggal_appointment)->format('d/m/Y') }}</td>
+          <td>{{ \Carbon\Carbon::parse($item->waktu_appointment)->format('H:i') }}</td>
           <td>{{ $item->kontak }}</td>
           <td>{{ $item->status }}</td>
           <td class="text-center">
