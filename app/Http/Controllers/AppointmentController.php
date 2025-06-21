@@ -41,6 +41,30 @@ class AppointmentController extends Controller
             'waktu_appointment' => 'required|date_format:H:i',
         ]);
 
+        // 1. Cek tanggal kurang dari hari ini
+        // Menggunakan Carbon untuk membandingkan tanggal
+        if (Carbon::parse($request->tanggal_appointment)->isBefore(Carbon::today())) {
+            return redirect()->back()->withErrors(['tanggal_appointment' => 'Tanggal appointment tidak bisa di masa lalu.'])->withInput();
+        }
+
+        // 2. Cek jam di antara 07.00 dan 17.00
+        $waktu_appointment = Carbon::parse($request->waktu_appointment);
+        $start_time = Carbon::createFromTimeString('07:00');
+        $end_time = Carbon::createFromTimeString('17:00');
+
+        if ($waktu_appointment->lt($start_time) || $waktu_appointment->gt($end_time)) {
+            return redirect()->back()->withErrors(['waktu_appointment' => 'Jam appointment harus di antara 07.00 dan 17.00 WIB.'])->withInput();
+        }
+
+        // 3. Cek apakah tanggal dan jam sudah ada di database
+        $existingAppointment = Appointment::where('tanggal_appointment', $request->tanggal_appointment)
+                                        ->where('waktu_appointment', $request->waktu_appointment)
+                                        ->exists();
+
+        if ($existingAppointment) {
+            return redirect()->back()->withErrors(['tanggal_waktu' => 'Tanggal dan jam appointment yang Anda pilih sudah terisi. Mohon pilih tanggal atau jam lain.'])->withInput();
+        }
+
         Appointment::create([
             'id_user' => $id_user,
             'id_mua' => null, // MUA akan dipilih saat edit oleh admin
