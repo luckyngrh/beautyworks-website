@@ -10,24 +10,40 @@ use Carbon\Carbon; // Import Carbon untuk manipulasi tanggal
 
 class AppointmentController extends Controller
 {
-    public function indexreguler()
+    public function indexreguler(Request $request) //
     {
-        $appointments = Appointment::where('jenis_layanan', 'Make-up Reguler')
-        ->with('user','mua')
-        ->orderBy('tanggal_appointment', 'desc')
-        ->get();
+        $query = Appointment::where('jenis_layanan', 'Make-up Reguler')
+            ->with('user', 'mua')
+            ->orderBy('tanggal_appointment', 'desc');
 
-        return view('dashboard.reservasi-reguler', compact('appointments'));
+        if ($request->has('search') && !empty($request->search)) { //
+            $search = $request->search; //
+            $query->whereHas('user', function ($q) use ($search) { //
+                $q->where('nama', 'like', '%' . $search . '%'); //
+            });
+        }
+
+        $appointments = $query->get(); //
+
+        return view('dashboard.reservasi-reguler', compact('appointments')); //
     }
 
-    public function indexwedding()
+    public function indexwedding(Request $request) //
     {
-        $appointments = Appointment::where('jenis_layanan', 'Make-up Wedding')
-        ->with('user','mua')
-        ->orderBy('tanggal_appointment', 'desc')
-        ->get();
+        $query = Appointment::where('jenis_layanan', 'Make-up Wedding')
+            ->with('user', 'mua')
+            ->orderBy('tanggal_appointment', 'desc');
 
-        return view('dashboard.reservasi-wedding', compact('appointments'));
+        if ($request->has('search') && !empty($request->search)) { //
+            $search = $request->search; //
+            $query->whereHas('user', function ($q) use ($search) { //
+                $q->where('nama', 'like', '%' . $search . '%'); //
+            });
+        }
+
+        $appointments = $query->get(); //
+
+        return view('dashboard.reservasi-wedding', compact('appointments')); //
     }
 
     public function store(Request $request)
@@ -102,7 +118,7 @@ class AppointmentController extends Controller
         ];
 
         // Custom validation for date
-        if ($request->tanggal_appointment < Carbon::today()->toDateString()) {
+        if (Carbon::parse($request->tanggal_appointment)->isBefore(Carbon::today()->toDateString())) {
             return back()->withErrors(['tanggal_appointment' => 'Tanggal appointment tidak bisa diubah menjadi tanggal yang sudah lewat.'])->withInput();
         }
 

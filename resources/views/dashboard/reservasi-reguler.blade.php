@@ -6,19 +6,19 @@
       <a href="{{ route('dashboard.reservasi-wedding') }}" class="btn btn-outline">Wedding</a>
     </div>
 
-    <div class="join">
+    <form action="{{ route('dashboard.reservasi-reguler') }}" method="GET" class="join"> {{-- --}}
       <div>
         <label class="input validator join-item">
-          <input type="text" placeholder="Cari Nama" required />
+          <input type="text" placeholder="Cari Nama" name="search" value="{{ request('search') }}" /> {{-- --}}
         </label>
       </div>
-      <button class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
-    </div>
+      <button type="submit" class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
+      {{-- --}}
+    </form>
   </div>
 
   <div class="overflow-x-auto rounded-box border border-base-content bg-base-200">
     <table class="table">
-      <!-- head -->
       <thead>
         <tr class="text-center">
           <th>No</th>
@@ -54,9 +54,11 @@
             @endif
           </td>
           <td class="text-center">
-            <a href="{{ route('dashboard.edit-appointment', $item->id_appointment) }}"class="btn btn-primary">Detail</a>
+            <a href="{{ route('dashboard.edit-appointment', $item->id_appointment) }}"
+              class="btn btn-primary">Detail</a>
 
-            <form class="inline-block" action="{{ route('dashboard.delete-appointment', $item->id_appointment) }}" method="post">
+            <form class="inline-block" action="{{ route('dashboard.delete-appointment', $item->id_appointment) }}"
+              method="post">
               @method('delete')
               @csrf
               <button type="submit" class="btn btn-error"
