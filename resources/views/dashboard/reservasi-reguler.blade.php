@@ -5,7 +5,7 @@
       <a href="{{ route('dashboard.reservasi-reguler') }}" class="btn btn-primary">Reguler</a>
       <a href="{{ route('dashboard.reservasi-wedding') }}" class="btn btn-outline">Wedding</a>
     </div>
-    
+
     <div class="join">
       <div>
         <label class="input validator join-item">
@@ -33,6 +33,21 @@
         </tr>
       </thead>
       <tbody>
+        @foreach ($appointments as $item)
+        <tr class="text-center">
+          <td>{{ $loop -> iteration }}</td>
+          <td>{{ $item->user->nama}}</td>
+          <td>{{ $item->mua->nama_mua ?? 'NA' }}</td>
+          <td>{{ $item->jenis_layanan }}</td>
+          <td>{{ \Carbon\Carbon::parse($item->tanggal_appointment)->format('d/m/Y') }}</td>
+          <td>{{ \Carbon\Carbon::parse($item->waktu_appointment)->format('H:i') }}</td>
+          <td>{{ $item->kontak }}</td>
+          <td>{{ $item->status }}</td>
+          <td class="text-center">
+            <a href="" class="btn btn-primary">Detail</a>
+          </td>
+        </tr>
+        @endforeach
         <tr class="text-center">
           <td>1</td>
           <td>Nanda</td>
