@@ -6,7 +6,7 @@
             <a class="btn btn-primary mt-4" href="{{ route('reservasi') }}">Reservation Now</a>
         </div>
         <div class="w-2/3">
-            <img class="rounded-tl-full rounded-tr-full" src="{{ asset('images/Gambar4.jpg') }}" alt="Bride Image">
+            <img class="rounded-tl-full rounded-tr-full" src="{{ asset('images/wedding1.jpg') }}" alt="Bride Image">
         </div>
     </div>
 </x-layout>
