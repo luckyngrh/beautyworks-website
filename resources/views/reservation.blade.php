@@ -25,13 +25,13 @@
       <div class="flex flex-row gap-4 mb-4">
         <div class="flex-[50%]">
           <legend for="" class="text-xl mb-1">Tanggal :</legend>
-          <input type="date" class="input w-full mb-2" name="tanggal_appointment"
-            value="{{ old('tanggal_appointment') }}" />
+          <input type="date" class="input w-full mb-2" name="tanggal_reservation"
+            value="{{ old('tanggal_reservation') }}" />
         </div>
 
         <div class="flex-[50%]">
           <legend for="" class="text-xl mb-1">Jam :</legend>
-          <input type="time" class="input w-full" name="waktu_appointment" value="{{ old('waktu_appointment') }}" />
+          <input type="time" class="input w-full" name="waktu_reservation" value="{{ old('waktu_reservation') }}" />
           <span class="text-sm">(tersedia dari 07.00 - 17.00 WIB)</span>
         </div>
       </div>
