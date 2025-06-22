@@ -16,15 +16,15 @@ class MuaSeeder extends Seeder
         DB::table('list_muas')->insert([
             ['nama_mua' => 'Fifi',
             'no_telp' => '08111234567891',
-            'spesialisasi' => 'Makeup Wedding, Makeup Reguler, Makeup Class',
+            'spesialisasi' => 'Make-up Wedding, Make-up Reguler, Make-up Class',
             ],
             ['nama_mua' => 'Shafa',
             'no_telp' => '08121234567891',
-            'spesialisasi' => 'Makeup Wedding, Makeup Reguler',
+            'spesialisasi' => 'Make-up Wedding, Make-up Reguler',
             ],
             ['nama_mua' => 'Tari',
             'no_telp' => '08131234567891',
-            'spesialisasi' => 'Makeup Wedding',
+            'spesialisasi' => 'Make-up Wedding',
             ],
         ]);
     }

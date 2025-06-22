@@ -43,22 +43,22 @@
           $spesialisasiArray = explode(', ', $mua->spesialisasi);
           @endphp
           <div>
-            <input type="checkbox" id="spesialisasi_wedding" name="spesialisasi[]" value="Makeup Wedding"
+            <input type="checkbox" id="spesialisasi_wedding" name="spesialisasi[]" value="Make-up Wedding"
               class="mr-2 leading-tight"
-              {{ in_array('Makeup Wedding', old('spesialisasi', $spesialisasiArray)) ? 'checked' : '' }}>
-            <label for="spesialisasi_wedding" class="text-gray-700">Makeup Wedding</label>
+              {{ in_array('Make-up Wedding', old('spesialisasi', $spesialisasiArray)) ? 'checked' : '' }}>
+            <label for="spesialisasi_wedding" class="text-gray-700">Make-up Wedding</label>
           </div>
           <div>
-            <input type="checkbox" id="spesialisasi_reguler" name="spesialisasi[]" value="Makeup Reguler"
+            <input type="checkbox" id="spesialisasi_reguler" name="spesialisasi[]" value="Make-up Reguler"
               class="mr-2 leading-tight"
-              {{ in_array('Makeup Reguler', old('spesialisasi', $spesialisasiArray)) ? 'checked' : '' }}>
-            <label for="spesialisasi_reguler" class="text-gray-700">Makeup Reguler</label>
+              {{ in_array('Make-up Reguler', old('spesialisasi', $spesialisasiArray)) ? 'checked' : '' }}>
+            <label for="spesialisasi_reguler" class="text-gray-700">Make-up Reguler</label>
           </div>
           <div>
-            <input type="checkbox" id="spesialisasi_class" name="spesialisasi[]" value="Makeup Class"
+            <input type="checkbox" id="spesialisasi_class" name="spesialisasi[]" value="Make-up Class"
               class="mr-2 leading-tight"
-              {{ in_array('Makeup Class', old('spesialisasi', $spesialisasiArray)) ? 'checked' : '' }}>
-            <label for="spesialisasi_class" class="text-gray-700">Makeup Class</label>
+              {{ in_array('Make-up Class', old('spesialisasi', $spesialisasiArray)) ? 'checked' : '' }}>
+            <label for="spesialisasi_class" class="text-gray-700">Make-up Class</label>
           </div>
         </div>
       </div>
