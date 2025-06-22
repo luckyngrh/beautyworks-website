@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Reservation; 
-use App\Models\ListMua; 
+use App\Models\Reservation;
+use App\Models\ListMua;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon; 
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -128,5 +128,25 @@ class ReservationController extends Controller
             return redirect()->route('dashboard.reservasi-wedding')->with('success', 'Data reservation berhasil dihapus!');
         }
         return redirect()->route('dashboard.reservasi-reguler')->with('success', 'Data reservation berhasil dihapus!');
+    }
+
+    // New method for AJAX request
+    public function getReservationsByDate(Request $request)
+    {
+        $date = $request->query('date');
+
+        if (!$date) {
+            return response()->json(['error' => 'Tanggal tidak ditemukan.'], 400);
+        }
+
+        // Fetch reservations for 'Make-up Class' on the given date, ordered by time
+        // And only for the authenticated user
+        $reservations = Reservation::where('jenis_layanan', 'Make-up Class')
+                                    ->where('tanggal_reservation', $date)
+                                    ->where('id_user', Auth::id())
+                                    ->orderBy('waktu_reservation')
+                                    ->get();
+
+        return response()->json(['reservations' => $reservations]);
     }
 }
