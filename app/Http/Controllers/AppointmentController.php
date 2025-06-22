@@ -111,7 +111,6 @@ class AppointmentController extends Controller
             'jenis_layanan' => 'required|string|max:255',
             'tanggal_appointment' => 'required|date',
             'waktu_appointment' => 'required|date_format:H:i',
-            'kontak' => 'required|string|max:20',
             'status' => 'required|string|in:Menunggu Konfirmasi,Diproses,Selesai,Dibatalkan',
         ];
 
@@ -127,7 +126,6 @@ class AppointmentController extends Controller
             'jenis_layanan' => $request->jenis_layanan,
             'tanggal_appointment' => $request->tanggal_appointment,
             'waktu_appointment' => $request->waktu_appointment,
-            'kontak' => $request->kontak,
             'status' => $request->status,
         ]);
 

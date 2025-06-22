@@ -4,6 +4,7 @@ use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListMuaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AuthController; // Import AuthController
@@ -81,9 +82,8 @@ Route::get('/daftar-akun', function () {
 Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('daftar-akun.store');
 
 // Rute untuk dashboard admin
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses
 
 // Rute untuk CRUD appointment
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
