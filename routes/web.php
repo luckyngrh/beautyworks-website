@@ -1,11 +1,12 @@
 <?php
 
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListMuaController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AuthController; // Import AuthController
-use App\Models\Appointment;
 
 Route::get('/', function () {
     return view('home');
@@ -52,6 +53,11 @@ Route::get('/appointment', function () {
     return view('appointment');
 })->name('appointment')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
 Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store')->middleware('auth', 'role:user');
+
+Route::get('/reservation', function () {
+    return view('reservation');
+})->name('reservation')->middleware('auth', 'role:user');
+Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store')->middleware('auth', 'role:user'); // Simpan reservation
 
 Route::get('/history', function () {
     return view('history');
