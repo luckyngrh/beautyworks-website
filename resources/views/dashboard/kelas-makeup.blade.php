@@ -33,7 +33,7 @@
         <tr class="text-center">
           <td>{{ $loop -> iteration }}</td>
           <td>{{ $item->user->nama}}</td>
-          <td>{{ $item->mua->nama_mua ?? 'NA' }}</td>
+          <td>{{ $item->mua->nama_mua ?? 'Belum Ditentukan' }}</td>
           <td>{{ $item->jenis_layanan }}</td>
           <td>{{ \Carbon\Carbon::parse($item->tanggal_reservation)->format('d/m/Y') }}</td>
           <td>{{ \Carbon\Carbon::parse($item->waktu_reservation)->format('H:i') }}</td>
@@ -63,17 +63,6 @@
           </td>
         </tr>
         @endforeach
-        {{-- Example Row --}}
-        <tr class="text-center">
-          <td>1</td>
-          <td>Nanda</td>
-          <td>Fifi</td>
-          <td>Private</td>
-          <td>20/06/2025</td>
-          <td>0986736566712</td>
-          <td>Sedang Berlangsung</td>
-          <td>Tombol</td>
-        </tr>
       </tbody>
     </table>
   </div>

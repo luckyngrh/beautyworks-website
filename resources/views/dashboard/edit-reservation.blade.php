@@ -47,13 +47,10 @@
 
       <div class="mb-4">
         <label for="jenis_layanan" class="block text-gray-700 text-sm font-bold mb-2">Jenis Layanan :</label>
-        <select class="w-full select select-bordered mb-3" name="jenis_layanan" id="jenis_layanan">
-          <option value="Make-up Reguler" {{ $reservation->jenis_layanan == 'Make-up Reguler' ? 'selected' : '' }}>
-            Make-up Reguler</option>
-          <option value="Make-up Wedding" {{ $reservation->jenis_layanan == 'Make-up Wedding' ? 'selected' : '' }}>
-            Make-up Wedding</option>
-        </select>
-        @error('status')
+        <input type="text" id="jenis_layanan" name="jenis_layanan"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="{{ $reservation->jenis_layanan }}" required>
+        @error('jenis_layanan')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
@@ -81,8 +78,8 @@
       <div class="mb-4">
         <label for="kontak" class="block text-gray-700 text-sm font-bold mb-2">Kontak :</label>
         <input type="text" id="kontak" name="kontak"
-          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value="{{ $reservation->kontak }}" required>
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="{{ $reservation->user->no_telp }}" required disabled>
         @error('kontak')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
