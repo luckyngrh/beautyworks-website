@@ -80,18 +80,19 @@ Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->name('dashboard')->middleware('auth', 'role:admin'); // Hanya admin yang bisa akses
 
+// Rute untuk CRUD appointment
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 Route::get('dashboard/reservasi-reguler', [AppointmentController::class, 'indexreguler'])->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
-
-// Rute untuk mengedit dan mengupdate appointment
 Route::get('/dashboard/edit-appointment/{appointment}', [AppointmentController::class, 'edit'])->name('dashboard.edit-appointment')->middleware('auth', 'role:admin');
 Route::put('/dashboard/update-appointment/{appointment}', [AppointmentController::class, 'update'])->name('dashboard.update-appointment')->middleware('auth', 'role:admin');
 Route::delete('/dashboard/delete-appointment/{appointment}', [AppointmentController::class, 'destroy'])->name('dashboard.delete-appointment')->middleware('auth', 'role:admin');
 
+// Rute untuk CRUD reservation
+Route::get('/dashboard/kelas-makeup', [ReservationController::class, 'index'])->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');
+Route::get('/dashboard/edit-reservation/{reservation}', [ReservationController::class, 'edit'])->name('dashboard.edit-reservation')->middleware('auth', 'role:admin');
+Route::put('/dashboard/update-reservation/{reservation}', [ReservationController::class, 'update'])->name('dashboard.update-reservation')->middleware('auth', 'role:admin');
+Route::delete('/dashboard/delete-reservation/{reservation}', [ReservationController::class, 'destroy'])->name('dashboard.delete-reservation')->middleware('auth', 'role:admin');
 
-Route::get('/dashboard/kelas-makeup', function () {
-    return view('dashboard.kelas-makeup');
-})->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');
 
 Route::get('/dashboard/list-mua/create', function () {
     return view('list-mua.create');

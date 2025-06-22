@@ -29,6 +29,41 @@
         </tr>
       </thead>
       <tbody>
+        @foreach ($reservations as $item)
+        <tr class="text-center">
+          <td>{{ $loop -> iteration }}</td>
+          <td>{{ $item->user->nama}}</td>
+          <td>{{ $item->mua->nama_mua ?? 'NA' }}</td>
+          <td>{{ $item->jenis_layanan }}</td>
+          <td>{{ \Carbon\Carbon::parse($item->tanggal_reservation)->format('d/m/Y') }}</td>
+          <td>{{ \Carbon\Carbon::parse($item->waktu_reservation)->format('H:i') }}</td>
+          <td>{{ $item->user->no_telp }}</td>
+          <td>
+            @if ($item->status == 'Menunggu Konfirmasi')
+            <span class="badge badge-warning">{{ $item->status }}</span>
+            @elseif ($item->status == 'Diproses')
+            <span class="badge badge-info">{{ $item->status }}</span>
+            @elseif ($item->status == 'Selesai')
+            <span class="badge badge-success">{{ $item->status }}</span>
+            @elseif ($item->status == 'Dibatalkan')
+            <span class="badge badge-error">{{ $item->status }}</span>
+            @endif
+          </td>
+          <td class="text-center">
+            <a href="{{ route('dashboard.edit-reservation', $item->id_reservation) }}"
+              class="btn btn-primary">Detail</a>
+
+            <form class="inline-block" action="{{ route('dashboard.delete-reservation', $item->id_reservation) }}"
+              method="post">
+              @method('delete')
+              @csrf
+              <button type="submit" class="btn btn-error"
+                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus Data</button>
+            </form>
+          </td>
+        </tr>
+        @endforeach
+        {{-- Example Row --}}
         <tr class="text-center">
           <td>1</td>
           <td>Nanda</td>
