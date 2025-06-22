@@ -53,7 +53,6 @@ Route::get('/appointment', function () {
     return view('appointment');
 })->name('appointment')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
 Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store')->middleware('auth', 'role:user');
-
 // New route for fetching appointments via AJAX
 Route::get('/get-appointments', [AppointmentController::class, 'getAppointmentsByDate'])->name('get-appointments')->middleware('auth', 'role:user');
 
@@ -62,6 +61,7 @@ Route::get('/reservation', function () {
 })->name('reservation')->middleware('auth', 'role:user');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store')->middleware('auth', 'role:user'); // Simpan reservation
 
+// New route for fetching reservations via AJAX
 Route::get('/get-reservations', [ReservationController::class, 'getReservationsByDate'])->name('get-reservations')->middleware('auth', 'role:user');
 
 Route::get('/history', function () {
@@ -123,6 +123,6 @@ Route::post('/dashboard/akun-admin', [UserController::class, 'storeadmin'])->nam
 
 Route::get('/dashboard/akun-admin/{user}/edit', [UserController::class, 'editadmin'])->name('dashboard.edit-admin')->middleware('auth', 'role:admin');
 
-Route::put('/dashboard/akun-admin/{user}', [UserController::class, 'updateadmin'])->name('dashboard.update-admin');
+Route::put('/dashboard/akun-admin/{user}', [UserController::class, 'updateadmin'])->name('dashboard.update-admin')->middleware('auth', 'role:admin');
 
 Route::delete('/dashboard/akun-admin/{user}', [UserController::class, 'destroyadmin'])->name('dashboard.destroy-admin')->middleware('auth', 'role:admin');

@@ -149,4 +149,22 @@ class AppointmentController extends Controller
         }
         return redirect()->route('dashboard.reservasi-reguler')->with('success', 'Data appointment berhasil dihapus!');
     }
+
+    // New method for AJAX request to fetch appointments by date
+    public function getAppointmentsByDate(Request $request)
+    {
+        $date = $request->query('date'); // Get the date from the query parameter
+
+        if (!$date) {
+            return response()->json(['error' => 'Tanggal tidak ditemukan.'], 400); // Return error if date is missing
+        }
+
+        // Fetch appointments for the authenticated user on the given date, ordered by time
+        $appointments = Appointment::where('tanggal_appointment', $date)
+                                    ->where('id_user', Auth::id()) // Filter by authenticated user's ID
+                                    ->orderBy('waktu_appointment') // Order by time
+                                    ->get(); // Get the results
+
+        return response()->json(['appointments' => $appointments]); // Return appointments as JSON
+    }
 }
