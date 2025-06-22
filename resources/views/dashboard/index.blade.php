@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline justify-between">    
+  <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline justify-between">
     <div class="join">
       <div>
         <label class="input validator join-item">
@@ -36,34 +36,37 @@
     </div>
   </div>
 
+  <div class="grid grid-cols-7 grid-rows-5 gap-4 overflow-y-auto rounded-box border border-base-content bg-base-200 p-3">
+    <div class="flex flex-col border-2 text-center overflow-auto rounded-box bg-primary text-primary-content pb-2">
+      <div>
+        <H3 class="text-2xl font-semibold">23</H3>
+        <p>Senin</p>
+      </div>
+      <p>Fifi</p>
+      <p>Make-up Wedding</p>
+      <p>10.00</p>
+    </div>
 
-  <div class="overflow-x-auto rounded-box border border-base-content bg-base-200">
-    <table class="table">
-      <!-- head -->
-      <thead>
-        <tr class="text-center">
-          <th>No</th>
-          <th>Pelanggan</th>
-          <th>MUA</th>
-          <th>Keterangan</th>
-          <th >Jadwal</th>
-          <th >Kontak</th>
-          <th>Status</th>
-          <th >Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="text-center">
-          <td>1</td>
-          <td>Nanda</td>
-          <td>Fifi</td>
-          <td>Make-Up Reguler</td>
-          <td >20/06/2025</td>
-          <td >0986736566712</td>
-          <td>Sedang Berlangsung</td>
-          <td >Tombol</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="flex flex-col border-2 text-center overflow-auto rounded-box bg-primary text-primary-content pb-2">
+      <div>
+        <H3 class="text-2xl font-semibold">23</H3>
+        <p>Senin</p>
+      </div>
+      <p>Tari</p>
+      <p>Make-up Wedding</p>
+      <p>11.00</p>
+    </div>
+
+    <div class="flex flex-col border-2 text-center overflow-auto rounded-box bg-primary text-primary-content pb-2">
+      <div>
+        <H3 class="text-2xl font-semibold">25</H3>
+        <p>Rabu</p>
+      </div>
+      <p>Salma</p>
+      <p>Make-up Class</p>
+      <p>13.00</p>
+    </div>
+
   </div>
+
 </x-dashboard-layout>
