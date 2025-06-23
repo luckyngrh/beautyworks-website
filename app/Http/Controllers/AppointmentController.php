@@ -135,19 +135,19 @@ class AppointmentController extends Controller
     // New method for AJAX request to fetch appointments by date
     public function getAppointmentsByDate(Request $request)
     {
-        $date = $request->query('date'); // Get the date from the query parameter
+        $date = $request->query('date');
 
         if (!$date) {
-            return response()->json(['error' => 'Tanggal tidak ditemukan.'], 400); // Return error if date is missing
+            return response()->json(['error' => 'Tanggal tidak ditemukan.'], 400);
         }
 
-        // Fetch appointments for the authenticated user on the given date, ordered by time
+        // Ubah baris ini:
         $appointments = Appointment::where('tanggal_appointment', $date)
-                                    ->where('id_user', Auth::id()) // Filter by authenticated user's ID
-                                    ->orderBy('waktu_appointment') // Order by time
-                                    ->get(); // Get the results
+                                    // ->where('id_user', Auth::id()) // Hapus baris ini
+                                    ->orderBy('waktu_appointment')
+                                    ->get();
 
-        return response()->json(['appointments' => $appointments]); // Return appointments as JSON
+        return response()->json(['appointments' => $appointments]);
     }
 
     public function storebyadmin(Request $request)

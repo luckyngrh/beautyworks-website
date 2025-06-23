@@ -125,13 +125,12 @@ class ReservationController extends Controller
             return response()->json(['error' => 'Tanggal tidak ditemukan.'], 400);
         }
 
-        // Fetch reservations for 'Make-up Class' on the given date, ordered by time
-        // And only for the authenticated user
+        // Ubah baris ini:
         $reservations = Reservation::where('jenis_layanan', 'Make-up Class')
-                                    ->where('tanggal_reservation', $date)
-                                    ->where('id_user', Auth::id())
-                                    ->orderBy('waktu_reservation')
-                                    ->get();
+                                        ->where('tanggal_reservation', $date)
+                                        // ->where('id_user', Auth::id()) // Hapus baris ini
+                                        ->orderBy('waktu_reservation')
+                                        ->get();
 
         return response()->json(['reservations' => $reservations]);
     }

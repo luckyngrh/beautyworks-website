@@ -116,30 +116,15 @@
           if (data.reservations.length > 0) {
             html += '<div class="overflow-x-auto"><table class="table w-full">';
             html +=
-              '<thead><tr><th>No</th><th>Jenis Layanan</th><th>Waktu</th><th>Status</th></tr></thead><tbody>';
+              // Ubah thead di sini
+              '<thead><tr><th>No</th><th>Nama</th><th>Jenis Layanan</th><th>Waktu</th></tr></thead><tbody>';
             data.reservations.forEach((res, index) => {
-              let statusBadgeClass = '';
-              switch (res.status) {
-                case 'Menunggu Konfirmasi':
-                  statusBadgeClass = 'badge-warning';
-                  break;
-                case 'Diproses':
-                  statusBadgeClass = 'badge-info';
-                  break;
-                case 'Selesai':
-                  statusBadgeClass = 'badge-success';
-                  break;
-                case 'Dibatalkan':
-                  statusBadgeClass = 'badge-error';
-                  break;
-                default:
-                  statusBadgeClass = 'badge-neutral';
-              }
+              // Ubah td di sini
               html += `<tr>
                                     <td>${index + 1}</td>
+                                    <td>${res.nama}</td>
                                     <td>${res.jenis_layanan}</td>
                                     <td>${res.waktu_reservation.substring(0, 5)}</td>
-                                    <td><span class="badge ${statusBadgeClass}">${res.status}</span></td>
                                 </tr>`;
             });
             html += '</tbody></table></div>';
