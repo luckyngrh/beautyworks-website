@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -17,71 +18,70 @@ class DashboardController extends Controller
         $filterBulan = $request->query('filter_bulan');
         $filterTahun = $request->query('filter_tahun');
 
-        // Query untuk appointments
-        $appointmentsQuery = Appointment::select(
+        // Base query untuk appointments
+        $appointmentsQuery = DB::table('appointments')->select(
             'id_appointment as id',
             'nama',
             'nama_mua',
             'jenis_layanan',
             'tanggal_appointment as tanggal_booking',
             'waktu_appointment as waktu_booking',
-            'status'
+            'status',
+            DB::raw("'appointment' as source_table")
         );
 
-        // Query untuk reservations
-        $reservationsQuery = Reservation::select(
+        // Base query untuk reservations
+        $reservationsQuery = DB::table('reservations')->select(
             'id_reservation as id',
             'nama',
-            'nama_mua', // nama_mua di tabel reservations bisa nullable
+            'nama_mua',
             'jenis_layanan',
             'tanggal_reservation as tanggal_booking',
             'waktu_reservation as waktu_booking',
-            'status'
+            'status',
+            DB::raw("'reservation' as source_table")
         );
 
-        // Terapkan filter layanan pada masing-masing query sebelum digabungkan
+        // Terapkan filter layanan sebelum union
         if ($filterLayanan && $filterLayanan !== 'semua') {
             if ($filterLayanan === 'Make-up Class') {
-                $appointmentsQuery->where('jenis_layanan', 'non-existent-type'); // Pastikan tidak ada hasil dari appointments
+                // Hanya ambil reservations untuk Make-up Class
                 $reservationsQuery->where('jenis_layanan', $filterLayanan);
+                // Kosongkan appointments
+                $appointmentsQuery->whereRaw('1 = 0');
             } else {
+                // Untuk Make-up Wedding dan Make-up Reguler, ambil dari appointments
                 $appointmentsQuery->where('jenis_layanan', $filterLayanan);
-                $reservationsQuery->where('jenis_layanan', 'non-existent-type'); // Pastikan tidak ada hasil dari reservations
+                // Kosongkan reservations
+                $reservationsQuery->whereRaw('1 = 0');
             }
         }
 
-        $appointments = $appointmentsQuery->get(); //cite: luckyngrh/beautyworks-website/beautyworks-website-28786eb6f39b8b03428d9870f83d6d42ee3f9e07/app/Http/Controllers/DashboardController.php
-        $reservations = $reservationsQuery->get(); //cite: luckyngrh/beautyworks-website/beautyworks-website-287866f39b8b03428d9870f83d6d42ee3f9e07/app/Http/Controllers/DashboardController.php
+        // Terapkan filter bulan dan tahun di level database
+        if ($filterBulan && $filterBulan !== 'all') {
+            $appointmentsQuery->whereMonth('tanggal_appointment', $filterBulan);
+            $reservationsQuery->whereMonth('tanggal_reservation', $filterBulan);
+        }
 
-        // Gabungkan kedua koleksi
-        $allBookings = $appointments->merge($reservations); //cite: luckyngrh/beautyworks-website/beautyworks-website-28786eb6f39b8b03428d9870f83d6d42ee3f9e07/app/Http/Controllers/DashboardController.php
+        if ($filterTahun && $filterTahun !== 'all') {
+            $appointmentsQuery->whereYear('tanggal_appointment', $filterTahun);
+            $reservationsQuery->whereYear('tanggal_reservation', $filterTahun);
+        }
 
-        // Filter pencarian berdasarkan nama MUA
+        // Gabungkan dengan UNION dan urutkan
+        $allBookings = $appointmentsQuery
+            ->unionAll($reservationsQuery)
+            ->orderBy('tanggal_booking')
+            ->orderBy('waktu_booking')
+            ->get();
+
+        // Filter pencarian berdasarkan nama MUA (dilakukan setelah union karena LIKE dengan union bisa kompleks)
         if ($search) {
             $allBookings = $allBookings->filter(function ($booking) use ($search) {
                 return isset($booking->nama_mua) && str_contains(strtolower($booking->nama_mua), strtolower($search));
             });
         }
 
-        // Filter bulan
-        if ($filterBulan && $filterBulan !== 'all') {
-            $allBookings = $allBookings->filter(function ($booking) use ($filterBulan) {
-                return Carbon::parse($booking->tanggal_booking)->month == $filterBulan;
-            });
-        }
-
-        // Filter tahun
-        if ($filterTahun && $filterTahun !== 'all') {
-            $allBookings = $allBookings->filter(function ($booking) use ($filterTahun) {
-                return Carbon::parse($booking->tanggal_booking)->year == $filterTahun;
-            });
-        }
-
-        // Urutkan berdasarkan tanggal dan waktu
-        $allBookings = $allBookings->sortBy(function ($booking) {
-            return Carbon::parse($booking->tanggal_booking . ' ' . $booking->waktu_booking);
-        });
-
-        return view('dashboard.index', compact('allBookings', 'search', 'filterLayanan', 'filterBulan', 'filterTahun')); //cite: luckyngrh/beautyworks-website/beautyworks-website-28786eb6f39b8b03428d9870f83d6d42ee3f9e07/app/Http/Controllers/DashboardController.php
+        return view('dashboard.index', compact('allBookings', 'search', 'filterLayanan', 'filterBulan', 'filterTahun'));
     }
 }
