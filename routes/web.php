@@ -99,6 +99,7 @@ Route::get('/dashboard/appointment-by-admin/create', function () {
 Route::get('/dashboard/reservation-by-admin/create', function () {
     return view('dashboard.reservationbyadmin');
 })->name('dashboard.reservationbyadmin')->middleware('auth', 'role:admin');
+Route::post('/dashboard/reservation-by-admin', [AppointmentController::class, 'storebyadmin'])->name('reservationbyadmin.store')->middleware('auth', 'role:admin');
 
 // Rute untuk CRUD reservation
 Route::get('/dashboard/kelas-makeup', [ReservationController::class, 'index'])->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');

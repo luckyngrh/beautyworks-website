@@ -15,6 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user')->nullable()->change();
             $table->string('nama')->nullable()->after('id_user');
             $table->string('kontak')->nullable()->after('nama');
+            $table->string('nama_mua')->nullable()->after('kontak');
         });
     }
 

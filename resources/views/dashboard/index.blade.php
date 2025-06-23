@@ -36,13 +36,14 @@
       <button type="submit" class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
     </form>
 
-    <div class="dropdown dropdown-end">
+    <a href="{{ route('dashboard.appointmentbyadmin') }}" class="btn btn-primary"><i class="bi bi-patch-plus-fill"></i>Tambah Pesanan</a>
+    <!-- <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-primary m-1"><i class="bi bi-patch-plus-fill"></i>Tambah Pesanan</div>
       <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
         <li><a href="{{ route('dashboard.appointmentbyadmin') }}">Make-up Wedding / Reguler</a></li>
         <li><a href="{{ route('dashboard.reservationbyadmin') }}">Make-up Class</a></li>
       </ul>
-    </div>
+    </div> -->
   </div>
 
   <div
