@@ -48,9 +48,13 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
-        $id_user = Auth::user()->id;
+        $nama_user = Auth::user()->nama;
+        $kontak_user = Auth::user()->no_telp;
 
         $request->validate([
+            'nama' => 'string|max:255',
+            'kontak' => 'string|max:255',
+            'nama_mua' => 'string|max:255',
             'jenis_layanan' => 'required|string|max:255',
             'tanggal_appointment' => 'required|date',
             'waktu_appointment' => 'required|date_format:H:i',
@@ -81,8 +85,9 @@ class AppointmentController extends Controller
         }
 
         Appointment::create([
-            'id_user' => $id_user,
-            'id_mua' => null, // MUA akan dipilih saat edit oleh admin
+            'nama' => $nama_user,
+            'kontak' => $kontak_user,
+            'nama_mua' => null,
             'jenis_layanan' => $request->jenis_layanan,
             'tanggal_appointment' => $request->tanggal_appointment,
             'waktu_appointment' => $request->waktu_appointment,
