@@ -37,7 +37,7 @@
         <tr class="text-center">
           <td>{{ $loop -> iteration }}</td>
           <td>{{ $item->nama}}</td>
-          <td>{{ $item->mua->nama_mua ?? 'Belum Ditentukan' }}</td>
+          <td>{{ $item->nama_mua ?? 'Belum Ditentukan' }}</td>
           <td>{{ $item->jenis_layanan }}</td>
           <td>{{ \Carbon\Carbon::parse($item->tanggal_appointment)->format('d/m/Y') }}</td>
           <td>{{ \Carbon\Carbon::parse($item->waktu_appointment)->format('H:i') }}</td>
