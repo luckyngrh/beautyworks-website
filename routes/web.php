@@ -77,9 +77,7 @@ Route::get('/daftar-akun', function () {
 Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('daftar-akun.store');
 
 // Rute untuk dashboard admin
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth', 'role:admin');
 
 // Rute untuk CRUD appointment
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
