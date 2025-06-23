@@ -92,6 +92,15 @@ Route::get('/dashboard/edit-appointment/{appointment}', [AppointmentController::
 Route::put('/dashboard/update-appointment/{appointment}', [AppointmentController::class, 'update'])->name('dashboard.update-appointment')->middleware('auth', 'role:admin');
 Route::delete('/dashboard/delete-appointment/{appointment}', [AppointmentController::class, 'destroy'])->name('dashboard.delete-appointment')->middleware('auth', 'role:admin');
 
+Route::get('/dashboard/appointment-by-admin/create', function () {
+    return view('dashboard.appointmentbyadmin');
+})->name('dashboard.appointmentbyadmin')->middleware('auth', 'role:admin');
+
+Route::get('/dashboard/reservation-by-admin/create', function () {
+    return view('dashboard.reservationbyadmin');
+})->name('dashboard.reservationbyadmin')->middleware('auth', 'role:admin');
+Route::post('/dashboard/reservation-by-admin', [AppointmentController::class, 'storebyadmin'])->name('reservationbyadmin.store')->middleware('auth', 'role:admin');
+
 // Rute untuk CRUD reservation
 Route::get('/dashboard/kelas-makeup', [ReservationController::class, 'index'])->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');
 Route::get('/dashboard/edit-reservation/{reservation}', [ReservationController::class, 'edit'])->name('dashboard.edit-reservation')->middleware('auth', 'role:admin');

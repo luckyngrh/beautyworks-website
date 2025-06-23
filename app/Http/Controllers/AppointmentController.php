@@ -170,4 +170,51 @@ class AppointmentController extends Controller
 
         return response()->json(['appointments' => $appointments]); // Return appointments as JSON
     }
+
+    public function storebyadmin(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
+            'nama_mua' => 'required|string|max:255',
+            'jenis_layanan' => 'required|string|max:255',
+            'tanggal_appointment' => 'required|date',
+            'waktu_appointment' => 'required|date_format:H:i',
+        ]);
+
+        // 1. Cek tanggal kurang dari hari ini
+        if (Carbon::parse($request->tanggal_appointment)->isBefore(Carbon::today())) {
+            return redirect()->back()->withErrors(['tanggal_appointment' => 'Tanggal appointment tidak bisa di masa lalu.'])->withInput();
+        }
+
+        // 2. Cek jam di antara 07.00 dan 17.00
+        $waktu_appointment = Carbon::parse($request->waktu_appointment);
+        $start_time = Carbon::createFromTimeString('07:00');
+        $end_time = Carbon::createFromTimeString('17:00');
+
+        if ($waktu_appointment->lt($start_time) || $waktu_appointment->gt($end_time)) {
+            return redirect()->back()->withErrors(['waktu_appointment' => 'Jam appointment harus di antara 07.00 dan 17.00 WIB.'])->withInput();
+        }
+
+        // 3. Cek apakah tanggal dan jam sudah ada di database
+        $existingAppointment = Appointment::where('tanggal_appointment', $request->tanggal_appointment)
+                                        ->where('waktu_appointment', $request->waktu_appointment)
+                                        ->exists();
+
+        if ($existingAppointment) {
+            return redirect()->back()->withErrors(['tanggal_waktu' => 'Tanggal dan jam appointment yang Anda pilih sudah terisi. Mohon pilih tanggal atau jam lain.'])->withInput();
+        }
+
+        Appointment::create([
+            'nama' => $request->nama,
+            'kontak' => $request->kontak,
+            'nama_mua' => $request->nama_mua,
+            'jenis_layanan' => $request->jenis_layanan,
+            'tanggal_appointment' => $request->tanggal_appointment,
+            'waktu_appointment' => $request->waktu_appointment,
+            'status' => 'Menunggu Konfirmasi',
+        ]);
+
+        return redirect()->back()->with('success', 'Appointment berhasil dibuat!');
+    }
 }
