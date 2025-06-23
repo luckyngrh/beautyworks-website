@@ -40,8 +40,4 @@ class Appointment extends Model
      * Seorang appointment dimiliki oleh satu MUA.
      * Relasi: Satu appointment dimiliki oleh satu MUA (Many to One).
      */
-    public function mua()
-    {
-        return $this->belongsTo(ListMua::class, 'id_mua', 'id_mua');
-    }
 }
