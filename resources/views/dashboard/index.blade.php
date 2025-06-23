@@ -27,7 +27,7 @@
 
   <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline justify-between">
     {{-- Form Pencarian --}}
-    <form action="{{ route('dashboard') }}" method="GET" class="join">
+    <form action="" method="GET" class="join">
       <div>
         <label class="input validator join-item">
           <input type="text" placeholder="Cari Nama MUA" name="search" value="{{ request('search') }}" />
@@ -36,35 +36,23 @@
       <button type="submit" class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
     </form>
 
-    <a href="{{ route('dashboard.appointmentbyadmin') }}" class="btn btn-primary"><i class="bi bi-patch-plus-fill"></i>Tambah Pesanan</a>
-    <!-- <div class="dropdown dropdown-end">
-      <div tabindex="0" role="button" class="btn btn-primary m-1"><i class="bi bi-patch-plus-fill"></i>Tambah Pesanan</div>
-      <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-        <li><a href="{{ route('dashboard.appointmentbyadmin') }}">Make-up Wedding / Reguler</a></li>
-        <li><a href="{{ route('dashboard.reservationbyadmin') }}">Make-up Class</a></li>
-      </ul>
-    </div> -->
+    <a href="" class="btn btn-primary"><i class="bi bi-patch-plus-fill"></i>Tambah Pesanan</a>
   </div>
 
   <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 overflow-y-auto rounded-box border border-base-content bg-base-200 p-3">
-    @forelse ($sortedBookings as $booking)
     <div class="flex flex-col border-2 text-center overflow-auto rounded-box bg-primary text-primary-content pb-2">
       <div>
         <H3 class="text-2xl font-semibold">
-          {{ \Carbon\Carbon::parse($booking->tanggal_appointment ?? $booking->tanggal_reservation)->format('d') }}
+          10
         </H3>
-        <p>
-          {{ \Carbon\Carbon::parse($booking->tanggal_appointment ?? $booking->tanggal_reservation)->format('l') }}
-        </p>
       </div>
-      <p>{{ $booking->mua->nama_mua ?? 'Belum Ditentukan' }}</p>
-      <p>{{ $booking->jenis_layanan }}</p>
-      <p>{{ \Carbon\Carbon::parse($booking->waktu_appointment ?? $booking->waktu_reservation)->format('H:i') }}</p>
+      <p>Fifi</p>
+      <p>Make-up Wedding</p>
+      <p>
+        10.00
+      </p>
     </div>
-    @empty
-    <p class="col-span-full text-center text-gray-500">Tidak ada booking yang tersedia.</p>
-    @endforelse
   </div>
 
 </x-dashboard-layout>
