@@ -16,8 +16,9 @@ class Appointment extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'id_user',
-        'id_mua',
+        'nama',
+        'kontak',
+        'nama_mua',
         'jenis_layanan',
         'tanggal_appointment',
         'waktu_appointment',

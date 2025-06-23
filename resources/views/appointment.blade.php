@@ -41,6 +41,8 @@
         </div>
         @endif
 
+        <input type="text" value="{{ Auth::user()->nama }}" name="nama" hidden>
+        <input type="text" value="{{ Auth::user()->no_telp }}" name="kontak" hidden>
         <div class="flex flex-col gap-4 mb-4">
           <div class="flex-[50%]">
             <legend for="" class="text-xl mb-1">Tanggal :</legend>

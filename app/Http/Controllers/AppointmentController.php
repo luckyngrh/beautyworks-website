@@ -12,45 +12,23 @@ class AppointmentController extends Controller
 {
     public function indexreguler(Request $request) //
     {
-        $query = Appointment::where('jenis_layanan', 'Make-up Reguler')
-            ->with('user', 'mua')
-            ->orderBy('tanggal_appointment', 'desc');
-
-        if ($request->has('search') && !empty($request->search)) { //
-            $search = $request->search; //
-            $query->whereHas('user', function ($q) use ($search) { //
-                $q->where('nama', 'like', '%' . $search . '%'); //
-            });
-        }
-
-        $appointments = $query->get(); //
-
+        $appointments = Appointment::where('jenis_layanan', 'Make-up Reguler')
+            ->orderBy('tanggal_appointment', 'asc') // atau 'desc' untuk urutan terbaru dulu
+            ->get();
         return view('dashboard.reservasi-reguler', compact('appointments')); //
     }
 
     public function indexwedding(Request $request) //
     {
-        $query = Appointment::where('jenis_layanan', 'Make-up Wedding')
-            ->with('user', 'mua')
-            ->orderBy('tanggal_appointment', 'desc');
-
-        if ($request->has('search') && !empty($request->search)) { //
-            $search = $request->search; //
-            $query->whereHas('user', function ($q) use ($search) { //
-                $q->where('nama', 'like', '%' . $search . '%'); //
-            });
-        }
-
-        $appointments = $query->get(); //
+        $appointments = Appointment::where('jenis_layanan', 'Make-up Wedding')
+            ->orderBy('tanggal_appointment', 'asc') // 
+            ->get();
 
         return view('dashboard.reservasi-wedding', compact('appointments')); //
     }
 
     public function store(Request $request)
     {
-        $nama_user = Auth::user()->nama;
-        $kontak_user = Auth::user()->no_telp;
-
         $request->validate([
             'nama' => 'string|max:255',
             'kontak' => 'string|max:255',
@@ -85,8 +63,8 @@ class AppointmentController extends Controller
         }
 
         Appointment::create([
-            'nama' => $nama_user,
-            'kontak' => $kontak_user,
+            'nama' => $request->nama,
+            'kontak' => $request->kontak,
             'nama_mua' => null,
             'jenis_layanan' => $request->jenis_layanan,
             'tanggal_appointment' => $request->tanggal_appointment,
@@ -99,12 +77,9 @@ class AppointmentController extends Controller
 
     public function edit($id_appointment)
     {
-        $appointment = Appointment::with('user', 'mua')->findOrFail($id_appointment);
+        $appointment = Appointment::findOrFail($id_appointment);
 
-        // Ambil MUA berdasarkan spesialisasi layanan yang sedang di-edit
-        $availableMuas = ListMua::where('spesialisasi', 'like', '%' . $appointment->jenis_layanan . '%')->get();
-
-        return view('dashboard.edit-appointment', compact('appointment', 'availableMuas'));
+        return view('dashboard.edit-appointment', compact('appointment'));
     }
 
     public function update(Request $request, $id_appointment)
@@ -112,7 +87,9 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($id_appointment);
 
         $rules = [
-            'id_mua' => 'nullable|exists:list_muas,id_mua',
+            'nama' => 'string|max:255',
+            'kontak' => 'string|max:255',
+            'nama_mua' => 'nullable|string|max:255',
             'jenis_layanan' => 'required|string|max:255',
             'tanggal_appointment' => 'required|date',
             'waktu_appointment' => 'required|date_format:H:i',
@@ -127,7 +104,9 @@ class AppointmentController extends Controller
         $request->validate($rules);
 
         $appointment->update([
-            'id_mua' => $request->id_mua,
+            'nama' => $request->nama,
+            'kontak' => $request->kontak,
+            'nama_mua' => null,
             'jenis_layanan' => $request->jenis_layanan,
             'tanggal_appointment' => $request->tanggal_appointment,
             'waktu_appointment' => $request->waktu_appointment,
