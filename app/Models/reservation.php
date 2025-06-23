@@ -31,18 +31,4 @@ class Reservation extends Model
      * Relasi: Satu reservation
      * dimiliki oleh satu user (Many to One).
      */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user', 'id');
-    }
-
-    /**
-     * Get the MUA (Makeup Artist) that owns the appointment.
-     * Seorang appointment dimiliki oleh satu MUA.
-     * Relasi: Satu appointment dimiliki oleh satu MUA (Many to One).
-     */
-    public function mua()
-    {
-        return $this->belongsTo(ListMua::class, 'id_mua', 'id_mua');
-    }
 }
