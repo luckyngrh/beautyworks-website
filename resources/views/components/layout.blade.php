@@ -73,7 +73,6 @@
             <ul>
               <li><a href="{{ route('appointment') }}">Buat Appointment</a></li>
               <li><a href="{{ route('reservation') }}">Reservasi (Khusus make-up class)</a></li>
-              <li><a href="{{ route('history') }}">History Appointment/Reservasi</a></li>
             </ul>
           </details>
         </li>

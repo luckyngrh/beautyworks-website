@@ -32,12 +32,12 @@
         @foreach ($reservations as $item)
         <tr class="text-center">
           <td>{{ $loop -> iteration }}</td>
-          <td>{{ $item->user->nama}}</td>
-          <td>{{ $item->mua->nama_mua ?? 'Belum Ditentukan' }}</td>
+          <td>{{ $item->nama}}</td>
+          <td>{{ $item->nama_mua ?? 'Belum Ditentukan' }}</td>
           <td>{{ $item->jenis_layanan }}</td>
           <td>{{ \Carbon\Carbon::parse($item->tanggal_reservation)->format('d/m/Y') }}</td>
           <td>{{ \Carbon\Carbon::parse($item->waktu_reservation)->format('H:i') }}</td>
-          <td>{{ $item->user->no_telp }}</td>
+          <td>{{ $item->kontak }}</td>
           <td>
             @if ($item->status == 'Menunggu Konfirmasi')
             <span class="badge badge-warning">{{ $item->status }}</span>

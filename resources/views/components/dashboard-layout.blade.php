@@ -49,7 +49,6 @@
                   <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                   <li><a href="{{ route('dashboard.reservasi-reguler') }}">Reservasi</a></li>
                   <li><a href="{{ route('dashboard.kelas-makeup') }}">Kelas make-up</a></li>
-                  <li><a href="{{ route('list-mua.index') }}">List MUA</a></li>
                   <li><a href="{{ route('dashboard.akun-admin') }}">Kelola akun admin</a></li>
                 </div>
                 <div class="">

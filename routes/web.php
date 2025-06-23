@@ -45,7 +45,6 @@ Route::get('/testimoni', function () {
     return view('testimoni');
 })->name('testimoni');
 
-
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi-kami');
@@ -64,10 +63,6 @@ Route::post('/reservation', [ReservationController::class, 'store'])->name('rese
 
 // New route for fetching reservations via AJAX
 Route::get('/get-reservations', [ReservationController::class, 'getReservationsByDate'])->name('get-reservations')->middleware('auth', 'role:user');
-
-Route::get('/history', function () {
-    return view('history');
-})->name('history')->middleware('auth', 'role:user'); // Hanya user yang bisa akses
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -106,23 +101,6 @@ Route::get('/dashboard/kelas-makeup', [ReservationController::class, 'index'])->
 Route::get('/dashboard/edit-reservation/{reservation}', [ReservationController::class, 'edit'])->name('dashboard.edit-reservation')->middleware('auth', 'role:admin');
 Route::put('/dashboard/update-reservation/{reservation}', [ReservationController::class, 'update'])->name('dashboard.update-reservation')->middleware('auth', 'role:admin');
 Route::delete('/dashboard/delete-reservation/{reservation}', [ReservationController::class, 'destroy'])->name('dashboard.delete-reservation')->middleware('auth', 'role:admin');
-
-
-Route::get('/dashboard/list-mua/create', function () {
-    return view('list-mua.create');
-})->name('list-mua.create')->middleware('auth', 'role:admin');
-
-Route::get('/dashboard/list-mua', [ListMuaController::class, 'index'])->name('list-mua.index')->middleware('auth', 'role:admin');
-
-Route::get('/list-mua/create', [ListMuaController::class, 'create'])->name('list-mua.create');
-
-Route::post('/list-mua', [ListMuaController::class, 'store'])->name('list-mua.store');
-
-Route::get('/list-mua/{mua}/edit', [ListMuaController::class, 'edit'])->name('list-mua.edit');
-
-Route::put('/list-mua/{mua}', [ListMuaController::class, 'update'])->name('list-mua.update');
-
-Route::delete('/list-mua/{mua}', [ListMuaController::class, 'destroy'])->name('list-mua.destroy');
 
 Route::get('/dashboard/akun-admin', [UserController::class, 'indexadmin'])->name('dashboard.akun-admin')->middleware('auth', 'role:admin');
 

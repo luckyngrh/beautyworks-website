@@ -15,9 +15,10 @@ class Reservation extends Model
     protected $primaryKey = 'id_reservation';
     public $timestamps = true;
     protected $fillable = [
-        'id_user',
-        'id_mua',
         'id_midtrans',
+        'nama',
+        'kontak',
+        'nama_mua',
         'jenis_layanan',
         'tanggal_reservation',
         'waktu_reservation',

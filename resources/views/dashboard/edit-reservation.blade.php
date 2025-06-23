@@ -25,24 +25,16 @@
 
       <div class="mb-4">
         <label for="nama_pelanggan" class="block text-gray-700 text-sm font-bold mb-2">Nama Pelanggan :</label>
-        <input type="text" id="nama_pelanggan"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value="{{ $reservation->user->nama }}" required disabled>
+        <input type="text" id="nama_pelanggan" name="nama"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="{{ $reservation->nama }}" required>
       </div>
 
       <div class="mb-4">
-        <label for="id_mua" class="block text-gray-700 text-sm font-bold mb-2">Nama MUA :</label>
-        <select class="w-full select select-bordered mb-3" name="id_mua" id="id_mua">
-          <option value="">Pilih MUA</option>
-          @foreach ($availableMuas as $mua)
-          <option value="{{ $mua->id_mua }}" {{ $reservation->id_mua == $mua->id_mua ? 'selected' : '' }}>
-            {{ $mua->nama_mua }}
-          </option>
-          @endforeach
-        </select>
-        @error('id_mua')
-        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-        @enderror
+        <label for="nama_mua" class="block text-gray-700 text-sm font-bold mb-2">Nama MUA :</label>
+        <input type="text" id="nama_mua" name="nama_mua"
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="{{ $reservation->nama_mua }}">
       </div>
 
       <div class="mb-4">
@@ -78,8 +70,8 @@
       <div class="mb-4">
         <label for="kontak" class="block text-gray-700 text-sm font-bold mb-2">Kontak :</label>
         <input type="text" id="kontak" name="kontak"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value="{{ $reservation->user->no_telp }}" required disabled>
+          class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="{{ $reservation->kontak }}" required>
         @error('kontak')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
