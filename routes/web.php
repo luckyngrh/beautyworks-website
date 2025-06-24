@@ -59,10 +59,15 @@ Route::get('/get-appointments', [AppointmentController::class, 'getAppointmentsB
 Route::get('/reservation', function () {
     return view('reservation');
 })->name('reservation')->middleware('auth', 'role:user');
-Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store')->middleware('auth', 'role:user'); // Simpan reservation
+Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store')->middleware('auth', 'role:user'); // Ubah ini untuk memicu pembayaran
 
 // New route for fetching reservations via AJAX
 Route::get('/get-reservations', [ReservationController::class, 'getReservationsByDate'])->name('get-reservations')->middleware('auth', 'role:user');
+
+// Rute untuk Midtrans Notifikasi (Webhook)
+// Penting: Rute ini tidak perlu middleware 'auth' atau 'role' karena Midtrans yang memanggil
+Route::post('/midtrans/notification', [ReservationController::class, 'handleNotification'])->name('midtrans.notification');
+
 
 Route::get('/login', function () {
     return view('auth.login');

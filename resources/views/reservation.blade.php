@@ -15,11 +15,12 @@
         </svg>
         <calendar-month></calendar-month>
       </calendar-date>
-      {{-- Removed type="submit" from this button as we'll handle with JS --}}
       <button type="button" class="btn btn-primary w-[18rem]" id="checkAvailabilityBtn">Cek Ketersediaan</button>
     </div>
 
-    <form action="{{ route('reservation.store') }}" method="post" class="flex items-center justify-center w-72">
+    {{-- Form ini akan kita modifikasi agar tombolnya memicu pembayaran Midtrans --}}
+    <form id="reservationForm" action="{{ route('reservation.store') }}" method="post"
+      class="flex items-center justify-center w-72">
       {{-- CSRF Token --}}
       @csrf
       <div class="bg-base-300 p-4 rounded-lg w-xl mx-auto">
@@ -40,9 +41,17 @@
           <span class="block sm:inline">{{ session('success') }}</span>
         </div>
         @endif
+        {{-- Display Midtrans Error --}}
+        @if (session('midtrans_error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline">{{ session('midtrans_error') }}</span>
+        </div>
+        @endif
 
         <input type="text" value="{{ Auth::user()->nama }}" name="nama" hidden>
         <input type="text" value="{{ Auth::user()->no_telp }}" name="kontak" hidden>
+        <input type="email" value="{{ Auth::user()->email }}" name="email" hidden> {{-- Tambahkan email --}}
+
         <div class="flex flex-col gap-4 mb-4">
           <div class="flex-[50%]">
             <legend for="" class="text-xl mb-1">Tanggal :</legend>
@@ -59,11 +68,14 @@
 
         <legend for="" class="text-lg mb-1">Jenis Layanan :</legend>
         <select name="jenis_layanan" class="w-full select select-bordered mb-3">
-          <option disabled selected>Pilih jenis layanan</option>
           <option value="Make-up Class" selected>Make-up Class</option>
         </select>
 
-        <button type="submit" class="btn btn-primary w-full"><i class="bi bi-send-fill"></i>Kirim</button>
+        {{-- Tampilkan harga --}}
+        <p class="text-xl font-bold mb-4">Harga: Rp 450.000</p>
+
+
+        <button type="submit" class="btn btn-primary w-full" id="payButton">Bayar Sekarang</button>
       </div>
     </form>
 
@@ -75,22 +87,30 @@
       </div>
     </div>
   </div>
+
   <script type="module" src="https://unpkg.com/cally"></script>
-  <script>
+  {{-- Load Midtrans Snap JS --}}
+  @if(session('snapToken'))
+  <script type="text/javascript" src="{{ session('midtransSnapUrl') }}"
+    data-client-key="{{ session('midtransClientKey') }}"></script>
+  @endif
+
+  <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     const calendar = document.getElementById('reservationCalendar');
     const checkAvailabilityBtn = document.getElementById('checkAvailabilityBtn');
     const bookingListDiv = document.getElementById('bookingList');
+    const reservationForm = document.getElementById('reservationForm');
+    const payButton = document.getElementById('payButton');
 
     checkAvailabilityBtn.addEventListener('click', function() {
-      const selectedDate = calendar.value; // cally component stores selected date in its value attribute
+      const selectedDate = calendar.value;
 
       if (!selectedDate) {
         alert('Silakan pilih tanggal terlebih dahulu.');
         return;
       }
 
-      // Make an AJAX request to fetch reservations for the selected date
       fetch(`/get-reservations?date=${selectedDate}`, {
           method: 'GET',
           headers: {
@@ -116,15 +136,14 @@
           if (data.reservations.length > 0) {
             html += '<div class="overflow-x-auto"><table class="table w-full">';
             html +=
-              // Ubah thead di sini
-              '<thead><tr><th>No</th><th>Nama</th><th>Jenis Layanan</th><th>Waktu</th></tr></thead><tbody>';
+              '<thead><tr><th>No</th><th>Nama</th><th>Jenis Layanan</th><th>Waktu</th><th>Status</th></tr></thead><tbody>'; // Tambahkan kolom status
             data.reservations.forEach((res, index) => {
-              // Ubah td di sini
               html += `<tr>
                                     <td>${index + 1}</td>
                                     <td>${res.nama}</td>
                                     <td>${res.jenis_layanan}</td>
                                     <td>${res.waktu_reservation.substring(0, 5)}</td>
+                                    <td>${res.status}</td> {{-- Tampilkan status --}}
                                 </tr>`;
             });
             html += '</tbody></table></div>';
@@ -139,6 +158,68 @@
             '<p class="text-red-500 text-center">Gagal memuat daftar booking. Silakan coba lagi.</p>';
         });
     });
+
+    // Cek apakah ada snapToken dari session setelah redirect
+    const snapToken = "{{ session('snapToken') }}";
+    if (snapToken) {
+      console.log('Snap Token received:', snapToken);
+      // Panggil Midtrans Snap Pop-up
+      window.snap.pay(snapToken, {
+        onSuccess: function(result) {
+          /* You may add your own implementation here */
+          alert("Pembayaran berhasil!");
+          // Redirect user ke halaman sukses atau update UI
+          window.location.href = "{{ route('reservation') }}?payment_status=success";
+        },
+        onPending: function(result) {
+          /* You may add your own implementation here */
+          alert("Pembayaran Anda tertunda!");
+          window.location.href = "{{ route('reservation') }}?payment_status=pending";
+        },
+        onError: function(result) {
+          /* You may add your own implementation here */
+          alert("Pembayaran gagal!");
+          window.location.href = "{{ route('reservation') }}?payment_status=error";
+        },
+        onClose: function() {
+          /* You may add your own implementation here */
+          alert('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
+          // Mungkin tidak perlu redirect di sini, karena status akan dihandle oleh webhook jika sudah terlanjur pending/settlement
+        }
+      });
+    }
+
+    // Handle status pembayaran dari URL jika ada
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatus = urlParams.get('payment_status');
+    if (paymentStatus) {
+      let message = '';
+      let alertClass = '';
+      if (paymentStatus === 'success') {
+        message = 'Pembayaran berhasil! Reservasi Anda akan segera dikonfirmasi.';
+        alertClass = 'bg-green-100 border-green-400 text-green-700';
+      } else if (paymentStatus === 'pending') {
+        message = 'Pembayaran Anda tertunda. Silakan selesaikan pembayaran atau cek status reservasi Anda.';
+        alertClass = 'bg-yellow-100 border-yellow-400 text-yellow-700';
+      } else if (paymentStatus === 'error') {
+        message = 'Pembayaran gagal. Silakan coba lagi.';
+        alertClass = 'bg-red-100 border-red-400 text-red-700';
+      }
+
+      if (message) {
+        const alertDiv = `
+                <div class="${alertClass} px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">${message}</span>
+                </div>
+            `;
+        // Masukkan alert di bagian atas form
+        reservationForm.insertAdjacentHTML('beforebegin', alertDiv);
+
+        // Hapus parameter payment_status dari URL agar tidak muncul lagi saat refresh
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
   });
   </script>
 </x-layout>

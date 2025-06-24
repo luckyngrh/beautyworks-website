@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User; 
-use App\Models\ListMua; 
 
 class Reservation extends Model
 {
@@ -15,7 +13,7 @@ class Reservation extends Model
     protected $primaryKey = 'id_reservation';
     public $timestamps = true;
     protected $fillable = [
-        'id_midtrans',
+        'id_midtrans', // Pastikan kolom ini ada di fillable
         'nama',
         'kontak',
         'nama_mua',
@@ -32,3 +30,4 @@ class Reservation extends Model
      * dimiliki oleh satu user (Many to One).
      */
 }
+
