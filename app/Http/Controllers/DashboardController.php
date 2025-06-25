@@ -15,8 +15,9 @@ class DashboardController extends Controller
         // Ambil filter lainnya
         $search = $request->query('search');
         $filterLayanan = $request->query('filter_layanan');
-        $filterBulan = $request->query('filter_bulan');
-        $filterTahun = $request->query('filter_tahun');
+        // Set default filter bulan dan tahun ke bulan dan tahun saat ini
+        $filterBulan = $request->query('filter_bulan', date('n')); // 'n' gives month without leading zeros
+        $filterTahun = $request->query('filter_tahun', date('Y'));
 
         // Base query untuk appointments
         $appointmentsQuery = DB::table('appointments')->select(

@@ -25,17 +25,24 @@
     </div>
   </div>
 
-  <div class="flex flex-col md:flex-row gap-4 mb-4 items-baseline justify-between">
+  <div class="flex gap-4 mb-4 items-baseline justify-end">
+
+
+    <a href="{{ route('dashboard.appointmentbyadmin') }}" class="btn btn-primary"><i
+        class="bi bi-patch-plus-fill"></i>Tambah Pesanan</a>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 overflow-y-auto rounded-box border border-base-content bg-base-200 p-3">
     {{-- Form Pencarian dan Filter --}}
-    <form action="{{ route('dashboard') }}" method="GET" class="flex flex-wrap gap-2">
-      <div class="join">
+    <form action="{{ route('dashboard') }}" method="GET" class="col-span-7">
+      <div class="join w-[20%]">
         <label class="input validator join-item">
           <input type="text" placeholder="Cari Nama MUA" name="search" value="{{ request('search') }}" />
         </label>
         <button type="submit" class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
       </div>
 
-      <select name="filter_layanan" class="select select-bordered">
+      <select name="filter_layanan" class="select select-bordered w-[20%]">
         <option value="semua" {{ request('filter_layanan') == 'semua' ? 'selected' : '' }}>Semua Layanan</option>
         <option value="Make-up Wedding" {{ request('filter_layanan') == 'Make-up Wedding' ? 'selected' : '' }}>Make-up
           Wedding</option>
@@ -45,29 +52,22 @@
         </option>
       </select>
 
-      <select name="filter_bulan" class="select select-bordered">
-        <option value="all" {{ request('filter_bulan') == 'all' ? 'selected' : '' }}>Semua Bulan</option>
-        @for ($m = 1; $m <= 12; $m++) <option value="{{ $m }}" {{ request('filter_bulan') == $m ? 'selected' : '' }}>
+      <select name="filter_bulan" class="select select-bordered w-[20%]">
+        @for ($m = 1; $m <= 12; $m++) <option value="{{ $m }}"
+          {{ (request('filter_bulan', date('n')) == $m) ? 'selected' : '' }}>
           {{ \Carbon\Carbon::create()->month($m)->locale('id')->monthName }}</option>
           @endfor
       </select>
 
-      <select name="filter_tahun" class="select select-bordered">
-        <option value="all" {{ request('filter_tahun') == 'all' ? 'selected' : '' }}>Semua Tahun</option>
+      <select name="filter_tahun" class="select select-bordered w-[20%]">
         @for ($y = Carbon\Carbon::now()->year - 5; $y <= Carbon\Carbon::now()->year + 5; $y++)
-          <option value="{{ $y }}" {{ request('filter_tahun') == $y ? 'selected' : '' }}>{{ $y }}</option>
+          <option value="{{ $y }}" {{ (request('filter_tahun', date('Y')) == $y) ? 'selected' : '' }}>{{ $y }}</option>
           @endfor
       </select>
 
-      <button type="submit" class="btn btn-primary">Filter</button>
+      <button type="submit" class="btn btn-primary w-[18%]">Filter</button>
     </form>
 
-    <a href="{{ route('dashboard.appointmentbyadmin') }}" class="btn btn-primary"><i
-        class="bi bi-patch-plus-fill"></i>Tambah Pesanan</a>
-  </div>
-
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 overflow-y-auto rounded-box border border-base-content bg-base-200 p-3">
     @forelse ($allBookings as $booking)
     <div class="flex flex-col border-2 text-center overflow-auto rounded-box bg-primary text-primary-content pb-2">
       <div>
