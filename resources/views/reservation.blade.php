@@ -96,130 +96,185 @@
   @endif
 
   <script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function() {
-    const calendar = document.getElementById('reservationCalendar');
-    const checkAvailabilityBtn = document.getElementById('checkAvailabilityBtn');
-    const bookingListDiv = document.getElementById('bookingList');
-    const reservationForm = document.getElementById('reservationForm');
-    const payButton = document.getElementById('payButton');
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendar = document.getElementById('reservationCalendar');
+        const checkAvailabilityBtn = document.getElementById('checkAvailabilityBtn');
+        const bookingListDiv = document.getElementById('bookingList');
+        const reservationForm = document.getElementById('reservationForm');
+        // const payButton = document.getElementById('payButton'); // Tidak lagi diperlukan karena handle langsung di Snap callbacks
 
-    checkAvailabilityBtn.addEventListener('click', function() {
-      const selectedDate = calendar.value;
-
-      if (!selectedDate) {
-        alert('Silakan pilih tanggal terlebih dahulu.');
-        return;
-      }
-
-      fetch(`/get-reservations?date=${selectedDate}`, {
-          method: 'GET',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          }
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          let html = '<h3 class="text-xl font-semibold mb-3">Booking untuk Tanggal: ' + new Date(selectedDate)
-            .toLocaleDateString('id-ID', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }) + '</h3>';
-          if (data.reservations.length > 0) {
-            html += '<div class="overflow-x-auto"><table class="table w-full">';
-            html +=
-              '<thead><tr><th>No</th><th>Nama</th><th>Jenis Layanan</th><th>Waktu</th><th>Status</th></tr></thead><tbody>'; // Tambahkan kolom status
-            data.reservations.forEach((res, index) => {
-              html += `<tr>
-                                    <td>${index + 1}</td>
-                                    <td>${res.nama}</td>
-                                    <td>${res.jenis_layanan}</td>
-                                    <td>${res.waktu_reservation.substring(0, 5)}</td>
-                                    <td>${res.status}</td> {{-- Tampilkan status --}}
-                                </tr>`;
+        // Fungsi untuk mengirim status update ke backend
+        function sendPaymentStatusToBackend(orderId, status) {
+            fetch('/update-payment-status', { // Ganti dengan rute yang sesuai di web.php
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Pastikan ada meta csrf-token di layout Anda
+                },
+                body: JSON.stringify({ order_id: orderId, status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Status pembayaran berhasil diperbarui di backend:', data.message);
+                    // Opsional: tampilkan pesan sukses ke pengguna
+                    displayAlert(status);
+                    // Refresh halaman atau perbarui daftar booking setelah sukses
+                    // window.location.reload();
+                } else {
+                    console.error('Gagal memperbarui status pembayaran di backend:', data.message);
+                    // Opsional: tampilkan pesan error
+                }
+            })
+            .catch(error => {
+                console.error('Error saat mengirim status pembayaran ke backend:', error);
             });
-            html += '</tbody></table></div>';
-          } else {
-            html += '<p class="text-center text-gray-500">Tidak ada booking untuk tanggal ini.</p>';
-          }
-          bookingListDiv.innerHTML = html;
-        })
-        .catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-          bookingListDiv.innerHTML =
-            '<p class="text-red-500 text-center">Gagal memuat daftar booking. Silakan coba lagi.</p>';
-        });
-    });
-
-    // Cek apakah ada snapToken dari session setelah redirect
-    const snapToken = "{{ session('snapToken') }}";
-    if (snapToken) {
-      console.log('Snap Token received:', snapToken);
-      // Panggil Midtrans Snap Pop-up
-      window.snap.pay(snapToken, {
-        onSuccess: function(result) {
-          /* You may add your own implementation here */
-          alert("Pembayaran berhasil!");
-          // Redirect user ke halaman sukses atau update UI
-          window.location.href = "{{ route('reservation') }}?payment_status=success";
-        },
-        onPending: function(result) {
-          /* You may add your own implementation here */
-          alert("Pembayaran Anda tertunda!");
-          window.location.href = "{{ route('reservation') }}?payment_status=pending";
-        },
-        onError: function(result) {
-          /* You may add your own implementation here */
-          alert("Pembayaran gagal!");
-          window.location.href = "{{ route('reservation') }}?payment_status=error";
-        },
-        onClose: function() {
-          /* You may add your own implementation here */
-          alert('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
-          // Mungkin tidak perlu redirect di sini, karena status akan dihandle oleh webhook jika sudah terlanjur pending/settlement
         }
-      });
-    }
 
-    // Handle status pembayaran dari URL jika ada
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment_status');
-    if (paymentStatus) {
-      let message = '';
-      let alertClass = '';
-      if (paymentStatus === 'success') {
-        message = 'Pembayaran berhasil! Reservasi Anda akan segera dikonfirmasi.';
-        alertClass = 'bg-green-100 border-green-400 text-green-700';
-      } else if (paymentStatus === 'pending') {
-        message = 'Pembayaran Anda tertunda. Silakan selesaikan pembayaran atau cek status reservasi Anda.';
-        alertClass = 'bg-yellow-100 border-yellow-400 text-yellow-700';
-      } else if (paymentStatus === 'error') {
-        message = 'Pembayaran gagal. Silakan coba lagi.';
-        alertClass = 'bg-red-100 border-red-400 text-red-700';
-      }
+        // Fungsi untuk menampilkan alert kustom
+        function displayAlert(paymentStatus) {
+            let message = '';
+            let alertClass = '';
+            if (paymentStatus === 'Sukses') {
+                message = 'Pembayaran berhasil! Reservasi Anda akan segera dikonfirmasi.';
+                alertClass = 'bg-green-100 border-green-400 text-green-700';
+            } else if (paymentStatus === 'Menunggu Konfirmasi') { // Ini akan dari status pending Midtrans
+                message = 'Pembayaran Anda tertunda. Silakan selesaikan pembayaran atau cek status reservasi Anda.';
+                alertClass = 'bg-yellow-100 border-yellow-400 text-yellow-700';
+            } else if (paymentStatus === 'Dibatalkan' || paymentStatus === 'Kadaluarsa') { // Dari error atau close
+                message = 'Pembayaran dibatalkan atau gagal. Silakan coba lagi.';
+                alertClass = 'bg-red-100 border-red-400 text-red-700';
+            }
 
-      if (message) {
-        const alertDiv = `
-                <div class="${alertClass} px-4 py-3 rounded relative mb-4" role="alert">
-                    <span class="block sm:inline">${message}</span>
-                </div>
-            `;
-        // Masukkan alert di bagian atas form
-        reservationForm.insertAdjacentHTML('beforebegin', alertDiv);
+            if (message) {
+                const alertDiv = `
+                    <div class="${alertClass} px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">${message}</span>
+                    </div>
+                `;
+                // Masukkan alert di bagian atas form
+                reservationForm.insertAdjacentHTML('beforebegin', alertDiv);
 
-        // Hapus parameter payment_status dari URL agar tidak muncul lagi saat refresh
-        history.replaceState({}, document.title, window.location.pathname);
-      }
-    }
+                // Hapus alert setelah beberapa detik
+                setTimeout(() => {
+                    const existingAlert = reservationForm.previousElementSibling;
+                    if (existingAlert && existingAlert.classList.contains('bg-green-100') || existingAlert.classList.contains('bg-yellow-100') || existingAlert.classList.contains('bg-red-100')) {
+                        existingAlert.remove();
+                    }
+                }, 5000); // Hapus setelah 5 detik
+            }
+        }
 
-  });
+
+        checkAvailabilityBtn.addEventListener('click', function() {
+            const selectedDate = calendar.value;
+
+            if (!selectedDate) {
+                alert('Silakan pilih tanggal terlebih dahulu.');
+                return;
+            }
+
+            fetch(`/get-reservations?date=${selectedDate}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let html = '<h3 class="text-xl font-semibold mb-3">Booking untuk Tanggal: ' + new Date(selectedDate)
+                    .toLocaleDateString('id-ID', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) + '</h3>';
+                if (data.reservations.length > 0) {
+                    html += '<div class="overflow-x-auto"><table class="table w-full">';
+                    html +=
+                        '<thead><tr><th>No</th><th>Nama</th><th>Jenis Layanan</th><th>Waktu</th><th>Status</th></tr></thead><tbody>'; // Tambahkan kolom status
+                    data.reservations.forEach((res, index) => {
+                        html += `<tr>
+                                        <td>${index + 1}</td>
+                                        <td>${res.nama}</td>
+                                        <td>${res.jenis_layanan}</td>
+                                        <td>${res.waktu_reservation.substring(0, 5)}</td>
+                                        <td>${res.status}</td> {{-- Tampilkan status --}}
+                                    </tr>`;
+                    });
+                    html += '</tbody></table></div>';
+                } else {
+                    html += '<p class="text-center text-gray-500">Tidak ada booking untuk tanggal ini.</p>';
+                }
+                bookingListDiv.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+                bookingListDiv.innerHTML =
+                    '<p class="text-red-500 text-center">Gagal memuat daftar booking. Silakan coba lagi.</p>';
+            });
+        });
+
+        // Cek apakah ada snapToken dari session setelah redirect
+        const snapToken = "{{ session('snapToken') }}";
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // Ambil CSRF token
+
+        if (snapToken) {
+            console.log('Snap Token received:', snapToken);
+            // Panggil Midtrans Snap Pop-up
+            window.snap.pay(snapToken, {
+                onSuccess: function(result) {
+                    /* You may add your own implementation here */
+                    console.log("Pembayaran berhasil!", result);
+                    sendPaymentStatusToBackend(result.order_id, 'Sukses');
+                },
+                onPending: function(result) {
+                    /* You may add your own implementation here */
+                    console.log("Pembayaran Anda tertunda!", result);
+                    sendPaymentStatusToBackend(result.order_id, 'Menunggu Konfirmasi');
+                },
+                onError: function(result) {
+                    /* You may add your own implementation here */
+                    console.log("Pembayaran gagal!", result);
+                    sendPaymentStatusToBackend(result.order_id, 'Dibatalkan');
+                },
+                onClose: function() {
+                    /* You may add your own implementation here */
+                    console.log('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
+                    // Jika pop-up ditutup, dan belum ada status sukses/pending,
+                    // asumsikan transaksi dibatalkan dari sisi pengguna.
+                    // Anda perlu mendapatkan order_id dari tempat lain jika onClose tidak menyediakannya.
+                    // Dalam kasus ini, kita akan mengandalkan session yang membawa snapToken.
+                    // Snap token berisi order_id. Kita bisa parse atau kirim saja snapToken ke backend.
+                    // Untuk kesederhanaan, kita bisa mengirim order_id yang sama dengan saat form disubmit.
+                    // Namun, lebih baik mengambilnya dari suatu tempat yang pasti (misalnya dari PHP variable jika memungkinkan).
+                    // Asumsi: orderId terakhir yang dibangkitkan saat form disubmit.
+                    // Jika ini masalahnya, kita perlu menyimpan orderId di suatu tempat (misal hidden input atau data attribute).
+                    // Untuk saat ini, kita akan melewati orderId dari result objek jika ada. Jika tidak, bisa jadi null atau undefined.
+                    // Karena `onClose` tidak memberikan `result.order_id`, kita perlu cara lain mendapatkan `order_id` yang terkait.
+                    // Solusi termudah adalah menyimpan `order_id` di suatu elemen DOM saat form disubmit, atau di session PHP.
+                    // Untuk saat ini, kita akan lewati `null` atau `undefined` dan biarkan backend menanganinya jika tidak ada `order_id`.
+                    // Namun, itu bukan praktik terbaik. Mari kita coba tangani kasus ini dengan lebih baik.
+                    // Karena `store` method di ReservationController yang generate order_id, itu bisa kita simpan di session juga
+                    // dan gunakan di sini untuk onClose.
+
+                    // Perbaikan: Simpan orderId di HTML setelah pembayaran berhasil dibuat.
+                    const lastOrderId = "{{ session('last_midtrans_order_id') }}";
+                    if (lastOrderId) {
+                        sendPaymentStatusToBackend(lastOrderId, 'Dibatalkan');
+                    } else {
+                        console.warn("Could not determine last order ID for onClose callback.");
+                    }
+                }
+            });
+        }
+    });
   </script>
 </x-layout>

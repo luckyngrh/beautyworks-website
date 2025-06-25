@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Midtrans\Config;
 use Midtrans\Snap;
-use Midtrans\Notification;
-use Illuminate\Support\Str; // Tambahkan ini untuk UUID
+// use Midtrans\Notification; // Hapus atau komentar baris ini jika tidak menggunakan webhook
+use Illuminate\Support\Str;
 
 class ReservationController extends Controller
 {
@@ -26,7 +26,7 @@ class ReservationController extends Controller
     {
         // Hanya tampilkan reservasi yang berstatus 'Sukses' atau 'Menunggu Konfirmasi'
         $reservations = Reservation::where('jenis_layanan', 'Make-up Class')
-                                ->whereIn('status', ['Sukses', 'Menunggu Konfirmasi'])
+                                ->whereIn('status', ['Sukses', 'Menunggu Konfirmasi', 'Menunggu Pembayaran', 'Dibatalkan', 'Kadaluarsa']) // Tampilkan semua status relevan
                                 ->orderBy('tanggal_reservation', 'desc')
                                 ->orderBy('waktu_reservation', 'desc')
                                 ->get();
@@ -34,15 +34,13 @@ class ReservationController extends Controller
         return view('dashboard.kelas-makeup', compact('reservations'));
     }
 
-    // Method yang sudah ada, kita akan memodifikasinya
     public function store(Request $request)
     {
         // Validasi input dari form
         $request->validate([
             'nama' => 'string|max:255',
             'kontak' => 'string|max:255',
-            // 'nama_mua' tidak diperlukan karena ini kelas make-up, bukan wedding/reguler
-            'jenis_layanan' => 'required|string|max:255', // Pastikan ini 'Make-up Class'
+            'jenis_layanan' => 'required|string|max:255',
             'tanggal_reservation' => 'required|date',
             'waktu_reservation' => 'required|date_format:H:i',
         ]);
@@ -62,11 +60,10 @@ class ReservationController extends Controller
         }
 
         // 3. Cek apakah tanggal dan jam sudah ada di database untuk 'Make-up Class'
-        // dan statusnya bukan 'Dibatalkan' atau 'Kadaluarsa'
         $existingReservation = Reservation::where('tanggal_reservation', $request->tanggal_reservation)
             ->where('waktu_reservation', $request->waktu_reservation)
-            ->where('jenis_layanan', 'Make-up Class') // Pastikan hanya cek untuk jenis layanan ini
-            ->whereIn('status', ['Menunggu Pembayaran', 'Menunggu Konfirmasi', 'Sukses']) // Hanya jika statusnya bukan Dibatalkan/Kadaluarsa
+            ->where('jenis_layanan', 'Make-up Class')
+            ->whereIn('status', ['Menunggu Pembayaran', 'Menunggu Konfirmasi', 'Sukses'])
             ->exists();
 
         if ($existingReservation) {
@@ -74,13 +71,12 @@ class ReservationController extends Controller
         }
 
         // Generate order ID yang unik untuk Midtrans
-        // Kita gunakan kombinasi user ID dan timestamp atau UUID
-        $orderId = 'RES-' . Auth::id() . '-' . Str::uuid(); // Menggunakan UUID agar lebih unik
+        $orderId = 'RES-' . Auth::id() . '-' . Str::uuid();
 
         // Data transaksi untuk Midtrans
         $transactionDetails = [
             'order_id' => $orderId,
-            'gross_amount' => 450000, // Harga tetap Rp 450.000
+            'gross_amount' => 450000,
         ];
 
         // Data pelanggan
@@ -90,7 +86,7 @@ class ReservationController extends Controller
             'phone' => Auth::user()->no_telp,
         ];
 
-        // Item detail (opsional, tapi bagus untuk catatan transaksi di Midtrans dashboard)
+        // Item detail
         $itemDetails = [
             [
                 'id' => 'MKPCLS001',
@@ -112,88 +108,116 @@ class ReservationController extends Controller
             $snapToken = Snap::getSnapToken($snapParams);
 
             // Simpan data reservasi ke database dengan status 'Menunggu Pembayaran'
-            // dan sertakan order ID dari Midtrans
-            Reservation::create([
-                'id_midtrans' => $orderId, // Simpan order ID Midtrans di sini
+            $reservation = Reservation::create([ // Simpan objek reservation yang baru dibuat
+                'id_midtrans' => $orderId,
                 'nama' => $request->nama,
                 'kontak' => $request->kontak,
-                'nama_mua' => null, // Karena ini kelas make-up
+                'nama_mua' => null,
                 'jenis_layanan' => $request->jenis_layanan,
                 'tanggal_reservation' => $request->tanggal_reservation,
                 'waktu_reservation' => $request->waktu_reservation,
-                'status' => 'Menunggu Pembayaran', // Status awal: Menunggu Pembayaran
+                'status' => 'Menunggu Pembayaran',
             ]);
 
-            // Kirim snapToken ke view agar bisa digunakan di JavaScript
+            // Kirim snapToken dan orderId ke view agar bisa digunakan di JavaScript
             return redirect()->back()->with([
                 'success' => 'Reservasi berhasil dibuat. Silakan selesaikan pembayaran.',
                 'snapToken' => $snapToken,
-                'midtransClientKey' => config('midtrans.client_key'), // Kirim client key juga
-                'midtransSnapUrl' => config('midtrans.snap_url'), // Kirim snap URL
+                'midtransClientKey' => config('midtrans.client_key'),
+                'midtransSnapUrl' => config('midtrans.snap_url'),
+                'last_midtrans_order_id' => $orderId, // Simpan order ID di session
             ]);
 
         } catch (\Exception $e) {
-            // Tangani error jika gagal membuat Snap Token
             return redirect()->back()->withErrors(['midtrans_error' => 'Gagal membuat transaksi pembayaran: ' . $e->getMessage()])->withInput();
         }
     }
 
-    // Method untuk menangani notifikasi dari Midtrans (Webhook)
-    public function handleNotification(Request $request)
+    /**
+     * Metode BARU untuk update status dari frontend JavaScript callback.
+     */
+    public function updateStatusFromFrontend(Request $request)
     {
-        // Inisialisasi notifikasi Midtrans
-        $notif = new Notification();
+        $request->validate([
+            'order_id' => 'required|string',
+            'status' => 'required|string|in:Sukses,Menunggu Konfirmasi,Dibatalkan,Kadaluarsa',
+        ]);
 
-        // Ambil data notifikasi
-        $transaction = $notif->transaction_status;
-        $type = $notif->payment_type;
-        $orderId = $notif->order_id;
-        $fraud = $notif->fraud_status;
+        $orderId = $request->input('order_id');
+        $newStatus = $request->input('status');
 
-        // Cari reservasi berdasarkan order ID Midtrans
         $reservation = Reservation::where('id_midtrans', $orderId)->first();
 
-        // Jika reservasi tidak ditemukan, log dan keluar
         if (!$reservation) {
-            \Log::error('Midtrans Notification: Reservation with order ID ' . $orderId . ' not found.');
-            return response('Reservation not found', 404);
+            return response()->json(['success' => false, 'message' => 'Reservasi tidak ditemukan.'], 404);
         }
 
-        // Logic untuk update status reservasi berdasarkan status transaksi Midtrans
-        if ($transaction == 'capture') {
-            // Untuk pembayaran kartu kredit dengan status capture
-            if ($type == 'credit_card') {
-                if ($fraud == 'challenge') {
-                    // Set status menjadi 'challenge' atau 'pending'
-                    $reservation->status = 'Menunggu Konfirmasi';
-                } else {
-                    // Jika fraud_status == 'accept'
-                    $reservation->status = 'Sukses';
-                }
-            }
-        } elseif ($transaction == 'settlement') {
-            // Untuk metode pembayaran non-kartu kredit yang sudah settlement
-            $reservation->status = 'Sukses';
-        } elseif ($transaction == 'pending') {
-            // Jika pembayaran masih pending
-            $reservation->status = 'Menunggu Pembayaran';
-        } elseif ($transaction == 'deny') {
-            // Jika pembayaran ditolak
-            $reservation->status = 'Dibatalkan';
-        } elseif ($transaction == 'expire') {
-            // Jika transaksi kadaluarsa
-            $reservation->status = 'Kadaluarsa';
-        } elseif ($transaction == 'cancel') {
-            // Jika transaksi dibatalkan
-            $reservation->status = 'Dibatalkan';
-        }
+        // Hanya perbarui jika status yang diterima lebih "final" atau berbeda
+        // Ini untuk mencegah status "Sukses" ditimpa oleh "Dibatalkan" jika ada keterlambatan.
+        // Dalam skenario ini, karena tidak ada webhook, kita percaya frontend.
+        $reservation->status = $newStatus;
+        $reservation->save();
 
-        $reservation->save(); // Simpan perubahan status ke database
-
-        \Log::info('Midtrans Notification: Order ID ' . $orderId . ' status updated to ' . $reservation->status);
-
-        return response('OK', 200);
+        return response()->json(['success' => true, 'message' => 'Status reservasi berhasil diperbarui.', 'new_status' => $newStatus]);
     }
+
+
+    // Hapus atau komentar metode handleNotification jika tidak digunakan sama sekali
+    // public function handleNotification(Request $request)
+    // {
+    //     // Inisialisasi notifikasi Midtrans
+    //     $notif = new Notification();
+
+    //     // Ambil data notifikasi
+    //     $transaction = $notif->transaction_status;
+    //     $type = $notif->payment_type;
+    //     $orderId = $notif->order_id;
+    //     $fraud = $notif->fraud_status;
+
+    //     // Cari reservasi berdasarkan order ID Midtrans
+    //     $reservation = Reservation::where('id_midtrans', $orderId)->first();
+
+    //     // Jika reservasi tidak ditemukan, log dan keluar
+    //     if (!$reservation) {
+    //         \Log::error('Midtrans Notification: Reservation with order ID ' . $orderId . ' not found.');
+    //         return response('Reservation not found', 404);
+    //     }
+
+    //     // Logic untuk update status reservasi berdasarkan status transaksi Midtrans
+    //     if ($transaction == 'capture') {
+    //         // Untuk pembayaran kartu kredit dengan status capture
+    //         if ($type == 'credit_card') {
+    //             if ($fraud == 'challenge') {
+    //                 // Set status menjadi 'challenge' atau 'pending'
+    //                 $reservation->status = 'Menunggu Konfirmasi';
+    //             } else {
+    //                 // Jika fraud_status == 'accept'
+    //                 $reservation->status = 'Sukses';
+    //             }
+    //         }
+    //     } elseif ($transaction == 'settlement') {
+    //         // Untuk metode pembayaran non-kartu kredit yang sudah settlement
+    //         $reservation->status = 'Sukses';
+    //     } elseif ($transaction == 'pending') {
+    //         // Jika pembayaran masih pending
+    //         $reservation->status = 'Menunggu Pembayaran';
+    //     } elseif ($transaction == 'deny') {
+    //         // Jika pembayaran ditolak
+    //         $reservation->status = 'Dibatalkan';
+    //     } elseif ($transaction == 'expire') {
+    //         // Jika transaksi kadaluarsa
+    //         $reservation->status = 'Kadaluarsa';
+    //     } elseif ($transaction == 'cancel') {
+    //         // Jika transaksi dibatalkan
+    //         $reservation->status = 'Dibatalkan';
+    //     }
+
+    //     $reservation->save(); // Simpan perubahan status ke database
+
+    //     \Log::info('Midtrans Notification: Order ID ' . $orderId . ' status updated to ' . $reservation->status);
+
+    //     return response('OK', 200);
+    // }
 
 
     public function edit($id_reservation)
@@ -258,10 +282,9 @@ class ReservationController extends Controller
             return response()->json(['error' => 'Tanggal tidak ditemukan.'], 400);
         }
 
-        // Ubah baris ini:
         $reservations = Reservation::where('jenis_layanan', 'Make-up Class')
                                         ->where('tanggal_reservation', $date)
-                                        ->whereIn('status', ['Menunggu Pembayaran', 'Menunggu Konfirmasi', 'Sukses']) // Hanya tampilkan status yang aktif
+                                        ->whereIn('status', ['Menunggu Pembayaran', 'Menunggu Konfirmasi', 'Sukses'])
                                         ->orderBy('waktu_reservation')
                                         ->get();
 

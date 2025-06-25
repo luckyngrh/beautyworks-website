@@ -64,9 +64,11 @@ Route::post('/reservation', [ReservationController::class, 'store'])->name('rese
 // New route for fetching reservations via AJAX
 Route::get('/get-reservations', [ReservationController::class, 'getReservationsByDate'])->name('get-reservations')->middleware('auth', 'role:user');
 
-// Rute untuk Midtrans Notifikasi (Webhook)
-// Penting: Rute ini tidak perlu middleware 'auth' atau 'role' karena Midtrans yang memanggil
-Route::post('/midtrans/notification', [ReservationController::class, 'handleNotification'])->name('midtrans.notification');
+// Rute BARU untuk update status pembayaran dari frontend
+Route::post('/update-payment-status', [ReservationController::class, 'updateStatusFromFrontend'])->name('update.payment.status');
+
+// Rute untuk Midtrans Notifikasi (Webhook) - Hapus atau komentar jika tidak digunakan
+// Route::post('/midtrans/notification', [ReservationController::class, 'handleNotification'])->name('midtrans.notification');
 
 
 Route::get('/login', function () {
@@ -117,3 +119,4 @@ Route::get('/dashboard/akun-admin/{user}/edit', [UserController::class, 'editadm
 Route::put('/dashboard/akun-admin/{user}', [UserController::class, 'updateadmin'])->name('dashboard.update-admin')->middleware('auth', 'role:admin');
 
 Route::delete('/dashboard/akun-admin/{user}', [UserController::class, 'destroyadmin'])->name('dashboard.destroy-admin')->middleware('auth', 'role:admin');
+
