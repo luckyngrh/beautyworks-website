@@ -13,6 +13,34 @@
     </form>
   </div>
 
+  @if(session('success'))
+  <div id="success-notification" class="bg-green-500 text-white p-2 rounded text-center mb-3">
+    {{ session('success') }}
+  </div>
+  <script>
+  setTimeout(function() { // Ganti setTimeoutSuccess dengan setTimeout
+    const notification = document.getElementById('success-notification');
+    if (notification) {
+      notification.remove();
+    }
+  }, 3000); // 3000ms = 3 detik
+  </script>
+  @endif
+
+  @if(session('error'))
+  <div id="error-notification" class="bg-red-500 text-white p-2 rounded text-center mb-3">
+    {{ session('error') }}
+  </div>
+  <script>
+  setTimeout(function() { // Ganti setTimeoutError dengan setTimeout
+    const notification = document.getElementById('error-notification');
+    if (notification) {
+      notification.remove();
+    }
+  }, 3000); // 3000ms = 3 detik
+  </script>
+  @endif
+
   <div class="overflow-x-auto rounded-box border border-base-content bg-base-200">
     <table class="table">
       <!-- head -->
@@ -23,8 +51,9 @@
           <th>MUA</th>
           <th>Keterangan</th>
           <th>Jadwal</th>
+          <th>Jam</th>
           <th>Kontak</th>
-          <th>Status</th>
+          <th>Status Pembayaran</th>
           <th class="text-center">Aksi</th>
         </tr>
       </thead>
@@ -41,9 +70,9 @@
           <td>
             @if ($item->status == 'Menunggu Konfirmasi')
             <span class="badge badge-warning">{{ $item->status }}</span>
-            @elseif ($item->status == 'Diproses')
+            @elseif ($item->status == 'Menunggu Pembayaran')
             <span class="badge badge-info">{{ $item->status }}</span>
-            @elseif ($item->status == 'Selesai')
+            @elseif ($item->status == 'Sukses')
             <span class="badge badge-success">{{ $item->status }}</span>
             @elseif ($item->status == 'Dibatalkan')
             <span class="badge badge-error">{{ $item->status }}</span>

@@ -26,9 +26,8 @@ class ReservationController extends Controller
     {
         // Hanya tampilkan reservasi yang berstatus 'Sukses' atau 'Menunggu Konfirmasi'
         $reservations = Reservation::where('jenis_layanan', 'Make-up Class')
-                                ->whereIn('status', ['Sukses', 'Menunggu Konfirmasi', 'Menunggu Pembayaran', 'Dibatalkan', 'Kadaluarsa']) // Tampilkan semua status relevan
-                                ->orderBy('tanggal_reservation', 'desc')
-                                ->orderBy('waktu_reservation', 'desc')
+                                ->orderBy('tanggal_reservation', 'asc')
+                                ->orderBy('waktu_reservation', 'asc')
                                 ->get();
 
         return view('dashboard.kelas-makeup', compact('reservations'));
@@ -207,11 +206,7 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id_reservation);
         $reservation->delete();
 
-        // Redirect ke halaman daftar reservasi yang sesuai
-        if ($reservation->jenis_layanan == 'Make-up Wedding') {
-            return redirect()->route('dashboard.reservasi-wedding')->with('success', 'Data reservation berhasil dihapus!');
-        }
-        return redirect()->route('dashboard.reservasi-reguler')->with('success', 'Data reservation berhasil dihapus!');
+        return redirect()->route('dashboard.kelas-makeup')->with('success', 'Data reservation berhasil dihapus!');
     }
 
     // New method for AJAX request

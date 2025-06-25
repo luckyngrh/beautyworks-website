@@ -40,7 +40,7 @@ class DashboardController extends Controller
             'waktu_reservation as waktu_booking',
             'status',
             DB::raw("'reservation' as source_table")
-        );
+        )->where('status','sukses');
 
         // Terapkan filter layanan sebelum union
         if ($filterLayanan && $filterLayanan !== 'semua') {
