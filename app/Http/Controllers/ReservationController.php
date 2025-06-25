@@ -175,10 +175,10 @@ class ReservationController extends Controller
             'nama' => 'string|max:255',
             'kontak' => 'string|max:255',
             'nama_mua' => 'nullable|string|max:255', // Biarkan nullable untuk kelas make-up
-            'jenis_layanan' => 'required|string|max:255',
+            'jenis_layanan' => 'string|max:255',
             'tanggal_reservation' => 'required|date',
             'waktu_reservation' => 'required|date_format:H:i',
-            'status' => 'required|string|in:Menunggu Pembayaran,Menunggu Konfirmasi,Sukses,Dibatalkan,Kadaluarsa', // Tambahkan status baru
+            'status' => 'string|in:Menunggu Pembayaran,Menunggu Konfirmasi,Sukses,Dibatalkan,Kadaluarsa', // Tambahkan status baru
         ];
 
         // Custom validation for date

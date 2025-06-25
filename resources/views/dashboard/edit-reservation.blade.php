@@ -41,7 +41,7 @@
         <label for="jenis_layanan" class="block text-gray-700 text-sm font-bold mb-2">Jenis Layanan :</label>
         <input type="text" id="jenis_layanan" name="jenis_layanan"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value="{{ $reservation->jenis_layanan }}" required>
+          value="{{ $reservation->jenis_layanan }}" disabled>
         @error('jenis_layanan')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
@@ -78,14 +78,10 @@
       </div>
 
       <div class="mb-4">
-        <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status :</label>
-        <select class="w-full select select-bordered mb-3" name="status" id="status">
-          <option value="Menunggu Konfirmasi" {{ $reservation->status == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
-            Menunggu Konfirmasi</option>
-          <option value="Diproses" {{ $reservation->status == 'Diproses' ? 'selected' : '' }}>Diproses</option>
-          <option value="Selesai" {{ $reservation->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-          <option value="Dibatalkan" {{ $reservation->status == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
-        </select>
+        <label for="status" class="block text-gray-700 text-sm font-bold mb-2">status :</label>
+        <input type="text" id="status" name="status"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="{{ $reservation->status }}" disabled>
         @error('status')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
