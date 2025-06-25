@@ -161,65 +161,6 @@ class ReservationController extends Controller
         return response()->json(['success' => true, 'message' => 'Status reservasi berhasil diperbarui.', 'new_status' => $newStatus]);
     }
 
-
-    // Hapus atau komentar metode handleNotification jika tidak digunakan sama sekali
-    // public function handleNotification(Request $request)
-    // {
-    //     // Inisialisasi notifikasi Midtrans
-    //     $notif = new Notification();
-
-    //     // Ambil data notifikasi
-    //     $transaction = $notif->transaction_status;
-    //     $type = $notif->payment_type;
-    //     $orderId = $notif->order_id;
-    //     $fraud = $notif->fraud_status;
-
-    //     // Cari reservasi berdasarkan order ID Midtrans
-    //     $reservation = Reservation::where('id_midtrans', $orderId)->first();
-
-    //     // Jika reservasi tidak ditemukan, log dan keluar
-    //     if (!$reservation) {
-    //         \Log::error('Midtrans Notification: Reservation with order ID ' . $orderId . ' not found.');
-    //         return response('Reservation not found', 404);
-    //     }
-
-    //     // Logic untuk update status reservasi berdasarkan status transaksi Midtrans
-    //     if ($transaction == 'capture') {
-    //         // Untuk pembayaran kartu kredit dengan status capture
-    //         if ($type == 'credit_card') {
-    //             if ($fraud == 'challenge') {
-    //                 // Set status menjadi 'challenge' atau 'pending'
-    //                 $reservation->status = 'Menunggu Konfirmasi';
-    //             } else {
-    //                 // Jika fraud_status == 'accept'
-    //                 $reservation->status = 'Sukses';
-    //             }
-    //         }
-    //     } elseif ($transaction == 'settlement') {
-    //         // Untuk metode pembayaran non-kartu kredit yang sudah settlement
-    //         $reservation->status = 'Sukses';
-    //     } elseif ($transaction == 'pending') {
-    //         // Jika pembayaran masih pending
-    //         $reservation->status = 'Menunggu Pembayaran';
-    //     } elseif ($transaction == 'deny') {
-    //         // Jika pembayaran ditolak
-    //         $reservation->status = 'Dibatalkan';
-    //     } elseif ($transaction == 'expire') {
-    //         // Jika transaksi kadaluarsa
-    //         $reservation->status = 'Kadaluarsa';
-    //     } elseif ($transaction == 'cancel') {
-    //         // Jika transaksi dibatalkan
-    //         $reservation->status = 'Dibatalkan';
-    //     }
-
-    //     $reservation->save(); // Simpan perubahan status ke database
-
-    //     \Log::info('Midtrans Notification: Order ID ' . $orderId . ' status updated to ' . $reservation->status);
-
-    //     return response('OK', 200);
-    // }
-
-
     public function edit($id_reservation)
     {
         $reservation = Reservation::findOrFail($id_reservation);
