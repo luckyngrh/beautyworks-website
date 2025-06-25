@@ -24,19 +24,16 @@ class ReservationController extends Controller
 
     public function index(Request $request)
     {
-        // Hanya tampilkan reservasi yang berstatus 'Sukses' atau 'Menunggu Konfirmasi'
         $query = Reservation::where('jenis_layanan', 'Make-up Class')
                                 ->orderBy('tanggal_reservation', 'asc')
                                 ->orderBy('waktu_reservation', 'asc');
 
-        // Tambahkan logika pencarian berdasarkan nama MUA
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where('nama', 'like', '%' . $search . '%');
         }
 
-        $reservations = $query->get(); // Eksekusi query setelah filter diterapkan
-
+        $reservations = $query->get();
 
         return view('dashboard.kelas-makeup', compact('reservations'));
     }

@@ -12,17 +12,32 @@ class AppointmentController extends Controller
 {
     public function indexreguler(Request $request) //
     {
-        $appointments = Appointment::where('jenis_layanan', 'Make-up Reguler')
-            ->orderBy('tanggal_appointment', 'asc') // atau 'desc' untuk urutan terbaru dulu
-            ->get();
+        $query = Appointment::where('jenis_layanan', 'Make-up Reguler')
+            ->orderBy('tanggal_appointment', 'asc') 
+            ->orderBy('waktu_appointment', 'asc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+
+        $appointments = $query->get();
+
         return view('dashboard.reservasi-reguler', compact('appointments')); //
     }
 
     public function indexwedding(Request $request) //
     {
-        $appointments = Appointment::where('jenis_layanan', 'Make-up Wedding')
-            ->orderBy('tanggal_appointment', 'asc') // 
-            ->get();
+        $query = Appointment::where('jenis_layanan', 'Make-up Wedding')
+            ->orderBy('tanggal_appointment', 'asc')
+            ->orderBy('waktu_appointment', 'asc');
+        
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+
+        $appointments = $query->get();
 
         return view('dashboard.reservasi-wedding', compact('appointments')); //
     }
