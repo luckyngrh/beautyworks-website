@@ -106,7 +106,7 @@ class AppointmentController extends Controller
         $appointment->update([
             'nama' => $request->nama,
             'kontak' => $request->kontak,
-            'nama_mua' => null,
+            'nama_mua' => $request->nama_mua,
             'jenis_layanan' => $request->jenis_layanan,
             'tanggal_appointment' => $request->tanggal_appointment,
             'waktu_appointment' => $request->waktu_appointment,
