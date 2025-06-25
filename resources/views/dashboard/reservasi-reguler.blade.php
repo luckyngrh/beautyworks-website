@@ -9,7 +9,7 @@
     <form action="{{ route('dashboard.reservasi-reguler') }}" method="GET" class="join"> {{-- --}}
       <div>
         <label class="input validator join-item">
-          <input type="text" placeholder="Cari Nama" name="search" value="{{ request('search') }}" /> {{-- --}}
+          <input type="text" placeholder="Cari Nama Pelanggan" name="search" value="{{ request('search') }}" /> {{-- --}}
         </label>
       </div>
       <button type="submit" class="btn btn-primary join-item bi bi-search-heart-fill text-accent text-xl"></button>
