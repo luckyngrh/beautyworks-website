@@ -4,7 +4,18 @@
       <h1 class="text-4xl leading-14">Radiate Beauty on Your Special Day with <span
           class="font-bold font-allura text-7xl">Beautyworks by Fifi</span></h1>
       <p class="text-2xl">Crafting Confidence, One Bride at a Time</p>
-      <a class="btn btn-primary mt-4" href="{{ route('appointment') }}">Reservation Now</a>
+      @guest
+        <a class="btn btn-primary mt-4" href="{{ route('login') }}">Reservation Now</a>
+      @else
+        <div class="dropdown mt-2">
+          <div tabindex="0" role="button" class="btn btn-primary m-1">Reservation Now</div>
+          <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+            <a class="mt-4 hover:text-black" href="{{ route('appointment') }}">Buat Appointment</a>
+            <a class="mt-4 hover:text-black" href="{{ route('reservation') }}">Reservasi (Khusus kelas make-up)</a>
+          </ul>
+        </div>
+      @endif
+
     </div>
     <div class="w-2/3">
       <img class="rounded-tl-full rounded-tr-full" src="{{ asset('images/wedding1.jpg') }}" alt="Bride Image">
