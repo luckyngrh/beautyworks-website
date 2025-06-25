@@ -42,6 +42,8 @@
         <input type="text" id="jenis_layanan" name="jenis_layanan"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="{{ $reservation->jenis_layanan }}" disabled>
+        {{-- Add a hidden input to ensure jenis_layanan is sent with the form --}}
+        <input type="hidden" name="jenis_layanan" value="{{ $reservation->jenis_layanan }}">
         @error('jenis_layanan')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
@@ -82,6 +84,8 @@
         <input type="text" id="status" name="status"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           value="{{ $reservation->status }}" disabled>
+        {{-- Add a hidden input to ensure status is sent with the form --}}
+        <input type="hidden" name="status" value="{{ $reservation->status }}">
         @error('status')
         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
