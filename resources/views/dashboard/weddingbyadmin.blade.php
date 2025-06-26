@@ -76,7 +76,7 @@
 
       <div class="flex items-center">
         <button type="submit" class="btn btn-secondary">
-          Buat Appointment
+          Buat Pesanan
         </button>
         <a href="{{ route('dashboard') }}" class="btn btn-neutral ml-2">
           Kembali
