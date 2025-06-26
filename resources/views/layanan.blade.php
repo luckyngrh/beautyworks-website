@@ -36,7 +36,7 @@
       <img src="{{ asset('images/class5.jpg') }}" alt="Makeup Wedding"
         class="mx-auto object-cover rounded-lg shadow-md mb-2">
       <p class="text-gray-700 min-h-20 mb-2">Basic Makeup Class, Professional Class, Private Class</p>
-      <a href="{{ route('appointment') }}"
+      <a href="{{ route('reservation') }}"
         class="inline-block px-4 py-2 border border-pink-500 text-pink-500 rounded hover:bg-pink-50 transition">
         Reservation Now
       </a>
@@ -50,7 +50,7 @@
       <img src="{{ asset('images/class1.jpg') }}" alt="Makeup Wedding"
         class="mx-auto object-cover rounded-lg shadow-md mb-2">
       <p class="text-gray-700 min-h-20 mb-2">Consultations are available via WhatsApp, Instagram, or live chat.</p>
-      <a href=""
+      <a href="{{ route('home') }}"
         class="inline-block px-4 py-2 border border-pink-500 text-pink-500 rounded hover:bg-pink-50 transition">
         Chat Now
       </a>
