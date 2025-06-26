@@ -47,7 +47,7 @@
             <span class="badge badge-warning">{{ $item->status }}</span>
             @elseif ($item->status == 'Diproses')
             <span class="badge badge-info">{{ $item->status }}</span>
-            @elseif ($item->status == 'Selesai')
+            @elseif ($item->status == 'Dijadwalkan')
             <span class="badge badge-success">{{ $item->status }}</span>
             @elseif ($item->status == 'Dibatalkan')
             <span class="badge badge-error">{{ $item->status }}</span>

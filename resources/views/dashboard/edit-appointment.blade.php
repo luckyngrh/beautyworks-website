@@ -86,7 +86,7 @@
           <option value="Menunggu Konfirmasi" {{ $appointment->status == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
             Menunggu Konfirmasi</option>
           <option value="Diproses" {{ $appointment->status == 'Diproses' ? 'selected' : '' }}>Diproses</option>
-          <option value="Selesai" {{ $appointment->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+          <option value="Dijadwalkan" {{ $appointment->status == 'Dijadwalkan' ? 'selected' : '' }}>Dijadwalkan</option>
           <option value="Dibatalkan" {{ $appointment->status == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
         </select>
         @error('status')
