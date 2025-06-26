@@ -89,10 +89,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/create/weddingbyadmin', function (){
     return view('dashboard.weddingbyadmin');
 })->name('dashboard.weddingbyadmin');
+Route::post('/weddingbyadmin/store' ,[DashboardController::class, 'weddingbyadmin'])->name('weddingbyadmin.store')->middleware('auth', 'role:admin');
 
 Route::get('/create/regulerbyadmin', function (){
     return view('dashboard.regulerbyadmin');
 })->name('dashboard.regulerbyadmin');
+Route::post('/regulerbyadmin/store' ,[DashboardController::class, 'regulerbyadmin'])->name('regulerbyadmin.store')->middleware('auth', 'role:admin');
+
 
 Route::get('/create/classbyadmin', function (){
     return view('dashboard.classbyadmin');

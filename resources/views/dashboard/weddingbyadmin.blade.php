@@ -18,7 +18,7 @@
     </div>
     @endif
 
-    <form action=" " method="post" class="bg-white p-6 rounded-lg shadow-md">
+    <form action="{{ route('weddingbyadmin.store') }}" method="post" class="bg-white p-6 rounded-lg shadow-md">
       @csrf
 
       <div class="mb-4">
