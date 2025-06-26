@@ -179,4 +179,51 @@ class DashboardController extends Controller
 
         return redirect()->back()->with('success', 'Pesanan berhasil dibuat!');
     }
+
+    public function classbyadmin(Request $request){
+        $request->validate([
+            'nama' => 'string|max:255',
+            'kontak' => 'string|max:255',
+            'nama_mua' => 'string|max:255',
+            'jenis_layanan' => 'required|string|max:255',
+            'tanggal_reservation' => 'required|date',
+            'waktu_reservation' => 'required|date_format:H:i',
+        ]);
+
+        // 1. Cek tanggal kurang dari hari ini
+        // Menggunakan Carbon untuk membandingkan tanggal
+        if (Carbon::parse($request->tanggal_reservation)->isBefore(Carbon::today())) {
+            return redirect()->back()->withErrors(['tanggal_reservation' => 'Tanggal reservation tidak bisa di masa lalu.'])->withInput();
+        }
+
+        // 2. Cek jam di antara 07.00 dan 17.00
+        $waktu_reservation = Carbon::parse($request->waktu_reservation);
+        $start_time = Carbon::createFromTimeString('07:00');
+        $end_time = Carbon::createFromTimeString('17:00');
+
+        if ($waktu_reservation->lt($start_time) || $waktu_reservation->gt($end_time)) {
+            return redirect()->back()->withErrors(['waktu_reservation' => 'Jam reservation harus di antara 07.00 dan 17.00 WIB.'])->withInput();
+        }
+
+        // 3. Cek apakah tanggal dan jam sudah ada di database
+        $existingreservation = Reservation::where('tanggal_reservation', $request->tanggal_reservation)
+                                        ->where('waktu_reservation', $request->waktu_reservation)
+                                        ->exists();
+
+        if ($existingreservation) {
+            return redirect()->back()->withErrors(['tanggal_waktu' => 'Tanggal dan jam reservation yang Anda pilih sudah terisi. Mohon pilih tanggal atau jam lain.'])->withInput();
+        }
+
+        Reservation::create([
+            'nama' => $request->nama,
+            'kontak' => $request->kontak,
+            'nama_mua' => $request->nama_mua,
+            'jenis_layanan' => $request->jenis_layanan,
+            'tanggal_reservation' => $request->tanggal_reservation,
+            'waktu_reservation' => $request->waktu_reservation,
+            'status' => 'Sukses',
+        ]);
+
+        return redirect()->back()->with('success', 'Pesanan berhasil dibuat!');
+    }
 }

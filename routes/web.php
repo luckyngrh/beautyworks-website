@@ -100,6 +100,7 @@ Route::post('/regulerbyadmin/store' ,[DashboardController::class, 'regulerbyadmi
 Route::get('/create/classbyadmin', function (){
     return view('dashboard.classbyadmin');
 })->name('dashboard.classbyadmin');
+Route::post('/classbyadmin/store' ,[DashboardController::class, 'classbyadmin'])->name('classbyadmin.store')->middleware('auth', 'role:admin');
 
 // Rute untuk CRUD appointment
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');

@@ -18,7 +18,7 @@
     </div>
     @endif
 
-    <form action=" " method="post" class="bg-white p-6 rounded-lg shadow-md">
+    <form action="{{ route('classbyadmin.store') }}" method="post" class="bg-white p-6 rounded-lg shadow-md">
       @csrf
 
       <div class="mb-4">
@@ -49,7 +49,7 @@
         <label for="jenis_layanan" class="block text-gray-700 text-sm font-bold mb-2">Jenis Layanan</label>
         <input type="text" id="jenis_layanan"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          required disabled value="Make-up Reguler">
+          required disabled value="Make-up Class">
         <input type="text" id="jenis_layanan" name="jenis_layanan" value="Make-up Class" hidden>
       </div>
 
