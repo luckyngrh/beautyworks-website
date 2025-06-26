@@ -86,6 +86,18 @@ Route::post('/daftar-akun/store', [UserController::class, 'store'])->name('dafta
 // Rute untuk dashboard admin
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth', 'role:admin');
 
+Route::get('/create/weddingbyadmin', function (){
+    return view('dashboard.weddingbyadmin');
+})->name('dashboard.weddingbyadmin');
+
+Route::get('/create/regulerbyadmin', function (){
+    return view('dashboard.regulerbyadmin');
+})->name('dashboard.regulerbyadmin');
+
+Route::get('/create/classbyadmin', function (){
+    return view('dashboard.classbyadmin');
+})->name('dashboard.classbyadmin');
+
 // Rute untuk CRUD appointment
 Route::get('dashboard/reservasi-wedding', [AppointmentController::class, 'indexwedding'])->name('dashboard.reservasi-wedding')->middleware('auth', 'role:admin');
 Route::get('dashboard/reservasi-reguler', [AppointmentController::class, 'indexreguler'])->name('dashboard.reservasi-reguler')->middleware('auth', 'role:admin');
@@ -93,14 +105,6 @@ Route::get('/dashboard/edit-appointment/{appointment}', [AppointmentController::
 Route::put('/dashboard/update-appointment/{appointment}', [AppointmentController::class, 'update'])->name('dashboard.update-appointment')->middleware('auth', 'role:admin');
 Route::delete('/dashboard/delete-appointment/{appointment}', [AppointmentController::class, 'destroy'])->name('dashboard.delete-appointment')->middleware('auth', 'role:admin');
 
-Route::get('/dashboard/appointment-by-admin/create', function () {
-    return view('dashboard.appointmentbyadmin');
-})->name('dashboard.appointmentbyadmin')->middleware('auth', 'role:admin');
-
-Route::get('/dashboard/reservation-by-admin/create', function () {
-    return view('dashboard.reservationbyadmin');
-})->name('dashboard.reservationbyadmin')->middleware('auth', 'role:admin');
-Route::post('/dashboard/reservation-by-admin', [AppointmentController::class, 'storebyadmin'])->name('reservationbyadmin.store')->middleware('auth', 'role:admin');
 
 // Rute untuk CRUD reservation
 Route::get('/dashboard/kelas-makeup', [ReservationController::class, 'index'])->name('dashboard.kelas-makeup')->middleware('auth', 'role:admin');

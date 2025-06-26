@@ -26,10 +26,14 @@
   </div>
 
   <div class="flex gap-4 mb-4 items-baseline justify-end">
-
-
-    <a href="{{ route('dashboard.appointmentbyadmin') }}" class="btn btn-primary"><i
-        class="bi bi-patch-plus-fill"></i>Tambah Pesanan</a>
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-primary m-1"><i class="bi bi-patch-plus-fill"></i>Tambah Pesanan</div>
+      <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+        <li><a href="{{ route('dashboard.weddingbyadmin') }}">Make-up Wedding</a></li>
+        <li><a href="{{ route('dashboard.regulerbyadmin') }}">Make-up Reguler</a></li>
+        <li><a href="{{ route('dashboard.classbyadmin') }}">Make-up Class</a></li>
+      </ul>
+    </div>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 overflow-y-auto rounded-box border border-base-content bg-base-200 p-3">
