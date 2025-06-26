@@ -10,8 +10,8 @@
         <div class="dropdown dropdown-start mt-2">
           <div tabindex="0" role="button" class="btn btn-primary m-1">Reservation Now</div>
           <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm">
-            <li><a href="{{ route('appointment') }}">Item 1</a></li>
-            <li><a href="{{ route('reservation') }}">Item 2</a></li>
+            <li><a href="{{ route('appointment') }}">Buat Appointment</a></li>
+            <li><a href="{{ route('reservation') }}">Reservasi (Khusus kelas make-up)</a></li>
           </ul>
         </div>
       @endif
