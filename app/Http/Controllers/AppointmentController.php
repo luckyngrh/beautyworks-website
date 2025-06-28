@@ -108,7 +108,7 @@ class AppointmentController extends Controller
             'jenis_layanan' => 'required|string|max:255',
             'tanggal_appointment' => 'required|date',
             'waktu_appointment' => 'required|date_format:H:i',
-            'status' => 'required|string|in:Menunggu Konfirmasi,Diproses,Selesai,Dibatalkan',
+            'status' => 'required|string|',
         ];
 
         // Custom validation for date
