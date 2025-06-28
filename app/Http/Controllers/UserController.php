@@ -82,7 +82,7 @@ class UserController extends Controller
             'nama' => 'required|string|max:255', //
             'email' => 'required|string|max:255', //
             'no_telp' => 'required|string|max:20', //
-            'password' => 'string|max:255', //
+            'password' => 'nullable|string|max:255', // Mengizinkan password kosong
         ]);
 
         $admin = User::findOrFail($id); //

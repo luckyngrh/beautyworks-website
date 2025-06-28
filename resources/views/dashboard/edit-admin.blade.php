@@ -1,6 +1,6 @@
 <x-dashboard-layout>
   <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">Tambah Data Admin Baru</h1>
+    <h1 class="text-2xl font-bold mb-6">Edit Data Admin</h1>
 
     @if (session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -46,11 +46,9 @@
       <div class="mb-4">
         <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
         <input type="password" name="password" id="password" placeholder="Kosongkan jika tidak ingin mengubah password"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          required>
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
       </div>
 
-      <!-- <div class="flex items-center justify-between"> -->
       <button type="submit" class="btn btn-secondary">
         Ubah Data
       </button>
